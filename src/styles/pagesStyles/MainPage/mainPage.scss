@@ -1,0 +1,38 @@
+.start-dashboar-main-container {
+   min-height: calc(100vh - 40px);
+  .dashboard-menu-main{
+    display: flex;
+  flex-direction: row;
+  justify-content: center; 
+  align-items: flex-start; 
+
+  min-height: 100vh; 
+  width: 100%;
+  padding: var(--ds-space-500, 40px) var(--ds-space-200, 16px);
+  box-sizing: border-box;
+  gap: var(--ds-space-200, 16px);
+ 
+  
+  .dashboard-start-menu {
+    margin: var(--ds-space-500, 40px) var(--ds-space-0, 0) var(--ds-space-0, 0) var(--ds-space-0, 0);
+    max-height: 90vh;
+    padding: var(--ds-space-0, 0) var(--ds-space-200, 16px);
+    position: sticky;
+    top: var(--ds-space-500, 40px);
+    width: 256px;
+    background-color: #fff;
+    border-radius: var(--ds-border-radius-100, 8px);
+    
+    // Добавленные стили для растягивания содержимого
+    display: flex;
+    flex-direction: column;
+  }
+  .create-delete-main-dashboard{
+       margin: var(--ds-space-500, 40px) var(--ds-space-200, 16px) var(--ds-space-0, 0) var(--ds-space-200, 16px);
+    max-width: 825px;
+    min-width: 288px;
+    width: 100%;
+  }
+  }
+  
+}

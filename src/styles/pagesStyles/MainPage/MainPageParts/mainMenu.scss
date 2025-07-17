@@ -1,0 +1,45 @@
+.dashboard-menu {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+
+  .first-group, .second-group {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .first-group {
+    border-bottom: 1px solid #e0e0e0;
+  }
+
+  .second-group {
+    position: relative;
+    padding: 8px 0;
+    overflow: visible;
+    
+    .workspace-menu-dropdown {
+      width: 100%;
+    }
+  }
+
+  .title-list {
+    display: flex;
+    align-items: center;
+    padding: 6px 12px;
+    color: #172b4d;
+    font-size: 14px;
+    font-weight: 500;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, 'Fira Sans', 'Droid Sans', sans-serif;
+ 
+    &:hover {
+      background-color: #f4f5f7;
+      color: var(--ds-text-selected, #0c66e4);
+      cursor: pointer;
+    }
+    
+    span {
+      padding-left: 6px;
+    }
+  }
+}

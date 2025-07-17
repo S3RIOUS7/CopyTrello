@@ -1,0 +1,72 @@
+.bar-chart-icon {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  height: 15px;
+  gap: 3px;
+  transform: rotate(180deg);
+  background-color: #0c66e4;
+  padding: 4.5px;
+  border-radius: 4px;
+  max-width: 70px;
+  max-height: 24px;
+  
+  overflow: hidden;
+
+  .bar-chart-bar {
+    width: 6px;
+    background-color: currentColor;
+    transition: height 0.5s ease-in-out;
+    color: aliceblue;
+    
+    &.left-bar {
+      height: 8px;
+    }
+    
+    &.right-bar {
+      height: 15px;
+    }
+  }
+
+  /* Отключение анимации для модификатора .static */
+  &.static {
+    .bar-chart-bar {
+      animation: none !important;
+    }
+  }
+}
+
+/* Анимация только при наведении на кнопку */
+.buttonContainer.icon:hover .bar-chart-icon:not(.static) {
+  .left-bar {
+    animation: leftBarAnimation 1s infinite ease-in-out;
+  }
+  
+  .right-bar {
+    animation: rightBarAnimation 1s infinite ease-in-out;
+  }
+}
+
+@keyframes leftBarAnimation {
+  0% {
+    height: 8px;
+  }
+  50% {
+    height: 15px;
+  }
+  100% {
+    height: 8px;
+  }
+}
+
+@keyframes rightBarAnimation {
+  0% {
+    height: 15px;
+  }
+  50% {
+    height: 8px;
+  }
+  100% {
+    height: 15px;
+  }
+}

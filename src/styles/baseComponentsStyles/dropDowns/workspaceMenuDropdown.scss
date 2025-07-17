@@ -1,0 +1,136 @@
+.workspace-menu-dropdown {
+  width: 100%;
+  background: #fff;
+  position: relative;
+
+  .workspace-title {
+    font-size: 12px;
+    line-height: 16px;
+    font-weight: var(--ds-font-weight-semibold, 600);
+    flex: 1 1 auto;
+    color: #5e6c84;
+    padding: 8px 12px;
+    margin: 0 0 4px 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  /* Стили триггера (оставляем как было) */
+  &__trigger {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 12px;
+    color: #172b4d;
+    font-size: 14px;
+    font-weight: 500;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, 'Fira Sans', 'Droid Sans', sans-serif;
+    
+    &:hover {
+      background-color: #f4f5f7;
+      color: var(--ds-text-selected, #0c66e4);
+      cursor: pointer;
+    }
+  }
+
+  .PIconTitle {
+    display: flex;
+    align-items: center;
+    
+    span {
+      flex: 1 1 auto;
+      width: min-content;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      text-align: left;
+      width: 100%;
+    }
+  }
+
+  .PIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 25px;
+    height: 25px;
+    margin: 0;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #ffffff;
+    background: linear-gradient(#0747a6, #008da6);
+    margin-right: 8px;
+  }
+
+  /* Стили для выпадающего меню */
+  &__popover {
+    width: 200px ;
+    min-width: 200px ;
+    max-height: calc(100vh - 100px); /* Защита от выхода за пределы экрана */
+    padding: 8px 0;
+    margin-top: 4px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    z-index: 1;
+     position: relative;
+    overflow: hidden;
+
+    &[data-entering] {
+      animation: fadeIn 0.2s ease-out;
+    }
+    
+    &[data-leaving] {
+      animation: fadeOut 0.2s ease-in;
+    }
+  }
+
+  &__panel {
+    width: 100%;
+    padding: 0 4px; /* Добавляем небольшой отступ по бокам */
+    box-sizing: border-box;
+    overflow-y: auto; /* На всякий случай, но не должно понадобиться */
+    max-height: inherit;
+  }
+
+  /* Стили для содержимого меню */
+  .menu-group {
+  
+    &:last-child {
+      margin-bottom: 0;
+    }
+    
+    .menu-item {
+     
+      padding: 8px 12px;
+      margin: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+     
+    }
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-12px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fadeOut {
+    from {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    to {
+      opacity: 0;
+      transform: translateY(-12px);
+    }
+  }
+}

@@ -1,0 +1,79 @@
+.create-menu-dropdown {
+  width: 304px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+  padding: 12px;
+
+  .create-menu-content {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .create-menu-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #5e6c84;
+    margin: 0;
+    text-align: center;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(9, 30, 66, 0.13);
+  }
+
+  .create-menu-input {
+    width: 100%;
+    padding: 8px 12px;
+    border: 2px solid #dfe1e6;
+    border-radius: 3px;
+    font-size: 14px;
+    transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+
+    &:focus {
+      outline: none;
+      border-color: #4c9aff;
+      background-color: #fafbfc;
+    }
+  }
+
+  .create-menu-button {
+    width: 100%;
+    padding: 8px 12px;
+    background-color: #0c66e4;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+
+    &:hover {
+      background-color: #0055cc;
+    }
+
+    &:active {
+      background-color: #004499;
+    }
+  }
+}
+
+// Специфичные стили для триггера CreateMenu
+.main-component-create-menu .button-trigger-wrapper {
+  padding: 6px 12px;
+  background-color: #0c66e4;
+  color: white;
+  border-radius: 3px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+
+  &:hover {
+    background-color: #0055cc;
+  }
+
+  .buttom-name {
+    white-space: nowrap;
+  }
+}

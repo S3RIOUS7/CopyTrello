@@ -1,0 +1,39 @@
+.input-container {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+
+  .search-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .inputField {
+          width: 100%;
+          padding: 8px 12px 8px 36px;
+          border: 1px solid #dfe1e6;
+          border-radius: 4px;
+          font-size: 14px;
+          background-color: #fafbfc;
+          
+          height: 36px;
+          box-sizing: border-box;
+
+           &:focus {
+             background-color: #fff;
+             border:1px solid #4c9aff;
+            border-color: #4c9aff;
+            
+    }
+    &.with-search-icon {
+      padding-left: 40px;
+    }
+
+   
+  }
+}
+

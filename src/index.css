@@ -1,0 +1,9 @@
+
+
+
+
+body {
+padding-right: 8px;
+font: var(--ds-font-body, normal 14px/20px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans", Ubuntu, "Droid Sans", "Helvetica Neue", sans-serif);
+}
+

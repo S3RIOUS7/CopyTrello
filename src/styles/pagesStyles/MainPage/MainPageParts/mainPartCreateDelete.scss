@@ -1,0 +1,44 @@
+.main-content{
+display: flex;
+flex-direction: row; 
+.button-trigger-wrapper {
+  display: block;
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  max-width: 220px;
+  height: 96px;
+  padding: var(--ds-space-100, 8px);
+  overflow: hidden;
+  border: none;
+  border-radius: var(--ds-border-radius-200, 8px);
+  background-color: var(--ds-skeleton, #091e420f);
+  color: var(--ds-text-subtle, #44546f);
+  font-weight: var(--ds-font-weight-regular, 400);
+  text-align: center;
+  margin: var(--ds-space-0, 0);
+  cursor: pointer;
+  
+  &:hover {
+    background-color: var(--ds-background-neutral-hovered, #091e4224);
+  }
+
+  // Стиль для текста внутри
+  .buttom-name {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+// Дополнительно: если нужно сохранить отступы как в оригинальном .create
+.with-margin {
+  margin: var(--ds-space-200, 16px);
+}
+
+.with-large-padding {
+  padding: var(--ds-space-300, 24px);
+}
+}

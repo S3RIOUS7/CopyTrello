@@ -1,0 +1,74 @@
+.icon {
+  display: inline-flex;
+  text-align: center;
+  background-color: white;
+  border: none;
+  padding: 5px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  
+  &:hover {
+    cursor: pointer;
+    background-color: #091E4224;
+  }
+  
+  &:active {
+    background-color: #E9F2FF;
+    cursor: pointer;
+  }
+}
+
+.search {
+  text-align: center;
+  color: white;
+  padding: 0 12px 0 12px;
+  border-radius: 4px;
+  background-color: #0c66e4;
+  border: none;
+  margin-left: 10px;
+  
+  &:hover {
+    cursor: pointer;
+  }
+  
+  &:active {  
+    cursor: pointer;
+  }
+}
+
+.create {
+  display: block;
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  max-width: 220px;
+  height: 96px;
+  padding: var(--ds-space-100, 8px);
+  overflow: hidden;
+  border: none;
+  border-radius: var(--ds-border-radius-200, 8px);
+  background-color: var(--ds-skeleton, #091e420f);
+  background-position: center center;
+  background-size: cover;
+  color: var(--ds-text-subtle, #44546f);
+  font-weight: var(--ds-font-weight-regular, 400);
+  text-align: center;
+  margin: var(--ds-space-0, 0);
+  
+  &:hover {
+    background-color: var(--ds-background-neutral-hovered, #091e4224);
+    cursor: pointer;
+  }
+
+  // Дополнительные классы из примера
+  &.with-margin {
+    margin: var(--ds-space-200, 16px);
+  }
+  
+  &.with-large-padding {
+    padding: var(--ds-space-300, 24px);
+  }
+}
+  
