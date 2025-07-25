@@ -17,7 +17,7 @@ const MainComponent: React.FC = () => {
         menuTitle="Создать доску"
         triggerIcon={
           <div className="button-trigger-wrapper">
-            <div className="buttom-name">Создать доску</div>
+            <div className="button-name">Создать доску</div>
           </div>
         }
         inputValue={inputValue}

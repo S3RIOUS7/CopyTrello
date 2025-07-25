@@ -1,6 +1,6 @@
-import InfoPic1 from '../../../assets/img/backgroundPic/3e2ea266f7e19b3e13a9.png';
-import InfoPic2 from '../../../assets/img/backgroundPic/a6ef15e44916d8461c20.png';
-import InfoPic3 from '../../../assets/img/backgroundPic/a9b33a5d268cc03a1305.png';
+import InfoPic1 from '../../../assets/img/helpMenuPictures/3e2ea266f7e19b3e13a9.png';
+import InfoPic2 from '../../../assets/img/helpMenuPictures/a6ef15e44916d8461c20.png';
+import InfoPic3 from '../../../assets/img/helpMenuPictures/a9b33a5d268cc03a1305.png';
 
 export const HELP_IMAGES = [InfoPic1, InfoPic2, InfoPic3];
 

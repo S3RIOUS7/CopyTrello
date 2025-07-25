@@ -37,44 +37,52 @@ export const CreateMenuDropdown = ({
   triggerClassName = '',
 }: CreateMenuDropdownProps) => {
   return (
-    <DropdownMenu
-      triggerIcon={triggerIcon}
-      panelClassName={`create-menu-dropdown ${className}`}
-      triggerClassName={`create-menu-trigger ${triggerClassName}`}
-      panelContent={
-        <div className="create-menu-content">
-          <h3 className="create-menu-title">{menuTitle}</h3>
-          
-          {beforeInputContent && (
-            <div className="create-menu-section before-input">
-              {beforeInputContent}
-            </div>
-          )}
-          
-          <Input
-            value={inputValue}
-            onChange={onInputChange}
-            placeholder={inputPlaceholder}
-            className="create-menu-input"
-          />
-          
-          {afterInputContent && (
-            <div className="create-menu-section after-input">
-              {afterInputContent}
-            </div>
-          )}
-          
-          <Button
-            buttonStyle="create"
-            onClick={onCreate}
-            className="create-menu-button"
-          >
-            {createButtonText}
-          </Button>
-        </div>
-      }
-      onOpen={onOpen}
-      onClose={onClose}
-    />
+    <div className="create-menu-wrapper">
+      <DropdownMenu
+        triggerIcon={
+          <div className="create-menu-trigger-content">
+            {triggerIcon}
+          </div>
+        }
+        panelClassName={`create-menu-dropdown ${className}`}
+        triggerClassName={`create-menu-trigger ${triggerClassName}`}
+        panelContent={
+          <div className="create-menu-content">
+            <h3 className="create-menu-title">{menuTitle}</h3>
+            
+            {beforeInputContent && (
+              <div className="create-menu-section before-input">
+                {beforeInputContent}
+              </div>
+            )}
+            
+            <Input
+              value={inputValue}
+              onChange={onInputChange}
+              placeholder={inputPlaceholder}
+              className="create-menu-input"
+            />
+            
+            {afterInputContent && (
+              <div className="create-menu-section after-input">
+                {afterInputContent}
+              </div>
+            )}
+            
+            <Button
+              buttonStyle="create"
+              onClick={onCreate}
+              className="create-menu-button"
+            >
+              {createButtonText}
+            </Button>
+          </div>
+        }
+        onOpen={onOpen}
+        onClose={onClose}
+        asButton={false} // Здесь отключаем обертку кнопкой
+        menuType="create"
+      />
+    </div>
   );
 };

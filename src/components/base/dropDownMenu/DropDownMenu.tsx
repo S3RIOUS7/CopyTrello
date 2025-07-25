@@ -38,7 +38,7 @@ export const DropdownMenu = ({
   anchor = 'bottom',
   onOpen,
   onClose,
-  asButton = true,
+  asButton = true, // Возвращаем true по умолчанию для совместимости
   activeTriggerIcon,
   withIconSwap = false,
   menuType = 'default' 
