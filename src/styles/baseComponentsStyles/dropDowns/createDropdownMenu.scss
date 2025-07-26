@@ -19,7 +19,7 @@
 }
 
 .create-menu-dropdown {
-  width: 304px;
+  width: 280px;
   background: #fff;
   border-radius: 8px;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
@@ -41,6 +41,59 @@
     border-bottom: 1px solid rgba(9, 30, 66, 0.13);
   }
 
+  .create-menu-subtitle {
+    font-size: 14px;
+    font-weight: 600;
+    margin: 8px 0 4px;
+    color: #5e6c84;
+  }
+
+  .background-buttons-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin-bottom: 8px;
+    
+    .background-button {
+      width: 100%;
+      height: 40px;
+      border-radius: 4px;
+      border: none;
+      cursor: pointer;
+      background-size: cover;
+      background-position: center;
+      transition: all 0.2s;
+      padding: 0;
+      
+      &:hover {
+        opacity: 0.8;
+        transform: scale(0.98);
+      }
+    }
+  }
+  
+  .color-buttons-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 8px;
+    margin-bottom: 12px;
+    
+    .color-button {
+      width: 100%;
+      height: 32px;
+      border-radius: 4px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+      padding: 0;
+      
+      &:hover {
+        opacity: 0.8;
+        transform: scale(0.98);
+      }
+    }
+  }
+
   .create-menu-input {
     width: 100%;
     padding: 8px 12px;
@@ -53,6 +106,18 @@
       outline: none;
       border-color: #4c9aff;
       background-color: #fafbfc;
+    }
+  }
+
+  .create-menu-icon-wrapper {
+    display: flex;
+    justify-content: center;
+    margin: 10px 0;
+    
+    .create-menu-trello-icon {
+      max-width: 100%;
+      height: auto;
+      padding: 7px;
     }
   }
 

@@ -13,20 +13,21 @@ const MainComponent: React.FC = () => {
 
   return (
     <div className="main-content">
-      <CreateMenuDropdown
-        menuTitle="Создать доску"
-        triggerIcon={
-          <div className="button-trigger-wrapper">
-            <div className="button-name">Создать доску</div>
-          </div>
-        }
-        inputValue={inputValue}
-        onInputChange={setInputValue}
-        inputPlaceholder="Введите название доски"
-        createButtonText="Создать"
-        onCreate={handleCreate}
-        className="main-component-create-menu"
-      />
+ <CreateMenuDropdown
+  menuTitle="Создать доску"
+  triggerIcon={
+    <div className="button-trigger-wrapper">
+      <div className="button-name">Создать доску</div>
+    </div>
+  }
+  inputValue={inputValue}
+  onInputChange={setInputValue}
+  inputPlaceholder="Введите название доски"
+  createButtonText="Создать"
+  onCreate={handleCreate}
+  className="main-component-create-menu"
+  showTrelloIcon={true} // Включаем отображение иконки
+/>
     </div>
   );
 };

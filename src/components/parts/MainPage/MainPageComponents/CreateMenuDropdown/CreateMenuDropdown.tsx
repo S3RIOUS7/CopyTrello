@@ -1,9 +1,11 @@
-
 import type { ReactNode } from 'react';
 import { DropdownMenu } from '../../../../base/dropDownMenu/DropDownMenu';
 import { Input } from '../../../../base/input/Input';
 import Button from '../../../../base/button/Button';
-import '../../../../../styles/baseComponentsStyles/dropDowns/createDropdownMenu.scss'
+import '../../../../../styles/baseComponentsStyles/dropDowns/createDropdownMenu.scss';
+import SampleTrelloIcon from '../../../../../assets/img/helpMenuPictures/sampleIcon';
+import { backgroundButtons, colorButtons } from '../../../../../utils/constants/mainPageConstants/buttonsBackground/backgroundButtons';
+
 
 interface CreateMenuDropdownProps {
   menuTitle: string;
@@ -19,6 +21,7 @@ interface CreateMenuDropdownProps {
   onOpen?: () => void;
   onClose?: () => void;
   triggerClassName?: string;
+  showTrelloIcon?: boolean;
 }
 
 export const CreateMenuDropdown = ({
@@ -35,6 +38,7 @@ export const CreateMenuDropdown = ({
   onOpen,
   onClose,
   triggerClassName = '',
+  showTrelloIcon = false,
 }: CreateMenuDropdownProps) => {
   return (
     <div className="create-menu-wrapper">
@@ -50,11 +54,47 @@ export const CreateMenuDropdown = ({
           <div className="create-menu-content">
             <h3 className="create-menu-title">{menuTitle}</h3>
             
+            {showTrelloIcon && (
+              <div className="create-menu-icon-wrapper">
+                <SampleTrelloIcon 
+                  width={120} 
+                  height={66}
+                  primaryColor="#E3E3E3"
+                  secondaryColor="white"
+                  className="create-menu-trello-icon"
+                />
+              </div>
+            )}
+            
             {beforeInputContent && (
               <div className="create-menu-section before-input">
                 {beforeInputContent}
               </div>
             )}
+            
+            <h4 className="create-menu-subtitle">Фон</h4>
+            
+            <div className="background-buttons-grid">
+              {backgroundButtons.map((button) => (
+                <button
+                  key={button.id}
+                  className="background-button"
+                  style={{ backgroundImage: `url(${button.background})` }}
+                  title={button.title}
+                />
+              ))}
+            </div>
+            
+            <div className="color-buttons-grid">
+              {colorButtons.map((button) => (
+                <button
+                  key={button.id}
+                  className="color-button"
+                  style={{ backgroundColor: button.color }}
+                  title={button.title}
+                />
+              ))}
+            </div>
             
             <Input
               value={inputValue}
@@ -68,7 +108,7 @@ export const CreateMenuDropdown = ({
                 {afterInputContent}
               </div>
             )}
-            
+
             <Button
               buttonStyle="create"
               onClick={onCreate}
@@ -80,7 +120,7 @@ export const CreateMenuDropdown = ({
         }
         onOpen={onOpen}
         onClose={onClose}
-        asButton={false} // Здесь отключаем обертку кнопкой
+        asButton={false}
         menuType="create"
       />
     </div>
