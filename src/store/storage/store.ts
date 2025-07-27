@@ -1,14 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
-// Импортируйте ваши редьюсеры здесь
-// import someReducer from './features/someSlice';
+import backgroundReducer from '../../components/base/features/background/backgroundSlice';
 
 export const store = configureStore({
   reducer: {
-    // Добавьте ваши редьюсеры здесь
-    // some: someReducer,
+    background: backgroundReducer,
   },
 });
 
-// Типы для TypeScript
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

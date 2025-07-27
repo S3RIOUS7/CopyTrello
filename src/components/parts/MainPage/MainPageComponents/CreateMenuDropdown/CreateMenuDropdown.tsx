@@ -5,6 +5,10 @@ import Button from '../../../../base/button/Button';
 import '../../../../../styles/baseComponentsStyles/dropDowns/createDropdownMenu.scss';
 import SampleTrelloIcon from '../../../../../assets/img/helpMenuPictures/sampleIcon';
 import { backgroundButtons, colorButtons } from '../../../../../utils/constants/mainPageConstants/buttonsBackground/backgroundButtons';
+import { useDispatch, useSelector } from 'react-redux';
+import type { RootState } from '../../../../../store/storage/store';
+import { selectBackground, selectColor } from '../../../../base/features/background/backgroundSlice';
+import { CheckIcon } from '../../../../base/icons/CheckIcon';
 
 
 interface CreateMenuDropdownProps {
@@ -40,6 +44,34 @@ export const CreateMenuDropdown = ({
   triggerClassName = '',
   showTrelloIcon = false,
 }: CreateMenuDropdownProps) => {
+  const dispatch = useDispatch();
+  const { selectedBackground, selectedColor, lastSelectedType } = useSelector((state: RootState) => state.background);
+
+  const handleBackgroundSelect = (button: typeof backgroundButtons[0]) => {
+    dispatch(selectBackground(button));
+  };
+
+  const handleColorSelect = (button: typeof colorButtons[0]) => {
+    dispatch(selectColor(button));
+  };
+
+  const getIconStyle = (): React.CSSProperties => {
+    if (selectedBackground) {
+      return { 
+        backgroundImage: `url(${selectedBackground})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center'
+      };
+    }
+    if (selectedColor) {
+      return { 
+        backgroundColor: selectedColor,
+        backgroundImage: 'none'
+      };
+    }
+    return {};
+  };
+
   return (
     <div className="create-menu-wrapper">
       <DropdownMenu
@@ -56,13 +88,18 @@ export const CreateMenuDropdown = ({
             
             {showTrelloIcon && (
               <div className="create-menu-icon-wrapper">
-                <SampleTrelloIcon 
-                  width={120} 
-                  height={66}
-                  primaryColor="#E3E3E3"
-                  secondaryColor="white"
-                  className="create-menu-trello-icon"
-                />
+                <div 
+                  className="create-menu-trello-icon-container"
+                  style={getIconStyle()}
+                >
+                  <SampleTrelloIcon 
+                    width={120} 
+                    height={66}
+                    primaryColor="#E3E3E3"
+                    secondaryColor="white"
+                    className="create-menu-trello-icon"
+                  />
+                </div>
               </div>
             )}
             
@@ -78,21 +115,37 @@ export const CreateMenuDropdown = ({
               {backgroundButtons.map((button) => (
                 <button
                   key={button.id}
-                  className="background-button"
+                  className={`background-button ${lastSelectedType === 'background' && selectedBackground === button.background ? 'selected' : ''}`}
                   style={{ backgroundImage: `url(${button.background})` }}
                   title={button.title}
-                />
+                  onClick={() => handleBackgroundSelect(button)}
+                >
+                  {lastSelectedType === 'background' && selectedBackground === button.background && (
+                    <span className="selected-check">
+                      <CheckIcon size={16} color="#fff" />
+                    </span>
+                  )}
+                </button>
               ))}
             </div>
+            
+            <h4 className="create-menu-subtitle">Цвет</h4>
             
             <div className="color-buttons-grid">
               {colorButtons.map((button) => (
                 <button
                   key={button.id}
-                  className="color-button"
+                  className={`color-button ${lastSelectedType === 'color' && selectedColor === button.color ? 'selected' : ''}`}
                   style={{ backgroundColor: button.color }}
                   title={button.title}
-                />
+                  onClick={() => handleColorSelect(button)}
+                >
+                  {lastSelectedType === 'color' && selectedColor === button.color && (
+                    <span className="selected-check">
+                      <CheckIcon size={16} color="#fff" />
+                    </span>
+                  )}
+                </button>
               ))}
             </div>
             
