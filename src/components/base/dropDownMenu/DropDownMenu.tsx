@@ -27,7 +27,8 @@ interface DropdownMenuProps {
   asButton?: boolean
   activeTriggerIcon?: ReactNode
   withIconSwap?: boolean 
-  menuType?: 'default' | 'workspace' | 'header' | 'create'
+  menuType?: 'default' | 'workspace' | 'header' | 'create' | 'color-picker'
+  triggerAs?: 'button' | 'div'
 }
 
 export const DropdownMenu = ({
@@ -38,13 +39,14 @@ export const DropdownMenu = ({
   anchor = 'bottom',
   onOpen,
   onClose,
-  asButton = true, // Возвращаем true по умолчанию для совместимости
+  asButton = true,
   activeTriggerIcon,
   withIconSwap = false,
-  menuType = 'default' 
+  menuType = 'default',
+  triggerAs = 'button'
 }: DropdownMenuProps) => {
   return (
-    <Popover className={`dropdown-menu-wrapper ${menuType === 'workspace' ? 'workspace-menu-dropdown' : ''}`}>
+    <Popover className={`dropdown-menu-wrapper ${menuType}-dropdown-wrapper`}>
       {({ open }) => {
         if (open && onOpen) {
           onOpen();
@@ -59,11 +61,9 @@ export const DropdownMenu = ({
         return (
           <>
             <PopoverButton 
-              as={asButton ? 'button' : Fragment} 
+              as={asButton ? triggerAs : Fragment} 
               className={`
-                ${menuType === 'workspace' ? 'workspace-menu-dropdown__trigger' : ''}
-                ${menuType === 'header' ? 'header-menu-trigger' : ''}
-                ${menuType === 'create' ? 'create-menu-trigger' : ''}
+                ${menuType}-dropdown-trigger
                 ${triggerClassName}
               `}
             >
@@ -72,9 +72,7 @@ export const DropdownMenu = ({
             <PopoverPanel 
               anchor={anchor} 
               className={`
-                ${menuType === 'workspace' ? 'workspace-menu-dropdown__popover' : ''}
-                ${menuType === 'header' ? 'header-menu-panel' : ''}
-                ${menuType === 'create' ? 'create-menu-panel' : ''}
+                ${menuType}-dropdown-panel
                 ${panelClassName}
               `}
             >

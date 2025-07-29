@@ -50,8 +50,9 @@ export const colorButtons: ColorButton[] = [
     title: 'Фиолетовый'
   },
   {
-    id: 'color6',
-    color: "#FF9FF3",
-    title: 'Розовый'
+     id: 'color6',
+    color: "#091e4224",
+    title: 'Выбор',
+    isMenuTrigger: true
   }
 ];

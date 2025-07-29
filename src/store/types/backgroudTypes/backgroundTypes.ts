@@ -8,6 +8,7 @@ export interface ColorButton {
   id: string;
   color: string;
   title: string;
+  isMenuTrigger?: boolean;
 }
 
 export interface BackgroundState {

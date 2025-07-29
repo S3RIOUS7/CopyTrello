@@ -9,7 +9,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import type { RootState } from '../../../../../store/storage/store';
 import { selectBackground, selectColor } from '../../../../base/features/background/backgroundSlice';
 import { CheckIcon } from '../../../../base/icons/CheckIcon';
-
+import { OverflowMenuHorizontalIcon } from '../../../../../assets/img/icon/HorizontalMenuIcon';
+import { additionalColorButtons } from '../../../../../utils/constants/mainPageConstants/buttonsBackground/backgroundColorButton';
 
 interface CreateMenuDropdownProps {
   menuTitle: string;
@@ -93,8 +94,8 @@ export const CreateMenuDropdown = ({
                   style={getIconStyle()}
                 >
                   <SampleTrelloIcon 
-                    width={120} 
-                    height={66}
+                    width={186} 
+                    height={103}
                     primaryColor="#E3E3E3"
                     secondaryColor="white"
                     className="create-menu-trello-icon"
@@ -132,21 +133,73 @@ export const CreateMenuDropdown = ({
             <h4 className="create-menu-subtitle">Цвет</h4>
             
             <div className="color-buttons-grid">
-              {colorButtons.map((button) => (
-                <button
-                  key={button.id}
-                  className={`color-button ${lastSelectedType === 'color' && selectedColor === button.color ? 'selected' : ''}`}
-                  style={{ backgroundColor: button.color }}
-                  title={button.title}
-                  onClick={() => handleColorSelect(button)}
-                >
-                  {lastSelectedType === 'color' && selectedColor === button.color && (
-                    <span className="selected-check">
-                      <CheckIcon size={16} color="#fff" />
-                    </span>
-                  )}
-                </button>
-              ))}
+              {colorButtons.map((button) => {
+                if (button.id === 'color6') {
+                  return (
+                    <DropdownMenu
+    key={button.id}
+    triggerIcon={
+      <div className="button-trigger-wrapper">
+        <div
+          className={`color-button ${lastSelectedType === 'color' && selectedColor === button.color ? 'selected' : ''}`}
+          style={{ backgroundColor: button.color }}
+          title={button.title}
+        >
+          <OverflowMenuHorizontalIcon size={16} color="#42526E" />
+          {lastSelectedType === 'color' && selectedColor === button.color && (
+            <span className="selected-check">
+              <CheckIcon size={16} color="#fff" />
+            </span>
+          )}
+        </div>
+      </div>
+    }
+    panelContent={
+      <div className="additional-colors-menu">
+        <h4 className="additional-colors-title">Дополнительные цвета</h4>
+        <div className="additional-colors-grid">
+          {additionalColorButtons.map((btn) => (
+            <button
+              key={btn.id}
+              className={`color-button ${lastSelectedType === 'color' && selectedColor === btn.color ? 'selected' : ''}`}
+              style={{ backgroundColor: btn.color }}
+              title={btn.title}
+              onClick={() => handleColorSelect(btn)}
+            >
+              {lastSelectedType === 'color' && selectedColor === btn.color && (
+                <span className="selected-check">
+                  <CheckIcon size={16} color="#fff" />
+                </span>
+              )}
+            </button>
+          ))}
+        </div>
+      </div>
+    }
+    panelClassName="additional-colors-dropdown"
+    anchor="right start"
+    menuType="color-picker"
+    triggerAs="div"
+  />
+);
+                }
+
+                return (
+                  <button
+                    key={button.id}
+                    className={`color-button ${lastSelectedType === 'color' && selectedColor === button.color ? 'selected' : ''}`}
+                    style={{ backgroundColor: button.color }}
+                    title={button.title}
+                    onClick={() => handleColorSelect(button)}
+                  >
+                    {lastSelectedType === 'color' && selectedColor === button.color && (
+                      <span className="selected-check">
+                        <CheckIcon size={16} color="#fff" />
+                      </span>
+                    )}
+                  </button>
+                );
+              })}
             </div>
             
             <Input
