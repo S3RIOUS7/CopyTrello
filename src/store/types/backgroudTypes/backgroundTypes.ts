@@ -11,6 +11,15 @@ export interface ColorButton {
   isMenuTrigger?: boolean;
 }
 
+export interface UnsplashPhoto {
+  id: string;
+  urls: {
+    small: string;
+    regular: string;
+  };
+  alt_description?: string;
+}
+
 export interface BackgroundState {
   selectedBackground: string | null;
   selectedColor: string | null;

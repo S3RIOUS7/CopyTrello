@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import type { ReactNode } from 'react';
 import { DropdownMenu } from '../../../../base/dropDownMenu/DropDownMenu';
 import { Input } from '../../../../base/input/Input';
@@ -11,6 +12,9 @@ import type { RootState } from '../../../../../store/storage/store';
 import { selectBackground, selectColor } from '../../../../base/features/background/backgroundSlice';
 import { CheckIcon } from '../../../../base/icons/CheckIcon';
 import { OverflowMenuHorizontalIcon } from '../../../../../assets/img/icon/HorizontalMenuIcon';
+import { clearUnsplashPhotos } from '../../../../../store/actions/unsplashActions/unsplashActions';
+import { UnsplashPhotosPanel } from '../Unsplash/UnsplashPhotosPanel';
+
 
 interface CreateMenuDropdownProps {
   menuTitle: string;
@@ -47,13 +51,23 @@ export const CreateMenuDropdown = ({
 }: CreateMenuDropdownProps) => {
   const dispatch = useDispatch();
   const { selectedBackground, selectedColor, lastSelectedType } = useSelector((state: RootState) => state.background);
+  const [showUnsplashPanel, setShowUnsplashPanel] = useState(false);
 
   const handleBackgroundSelect = (background: string, title: string) => {
     dispatch(selectBackground({ background, title, id: `bg-${Date.now()}` }));
   };
 
-  const handleColorSelect = (button: typeof colorButtons[0]) => {
+  const handleColorSelect = (button: typeof colorButtons[0] | typeof additionalColorButtons[0]) => {
     dispatch(selectColor(button));
+  };
+
+  const handleShowMoreBackgrounds = () => {
+    setShowUnsplashPanel(true);
+  };
+
+  const handleUnsplashClose = () => {
+    setShowUnsplashPanel(false);
+    dispatch(clearUnsplashPhotos());
   };
 
   const getIconStyle = (): React.CSSProperties => {
@@ -71,6 +85,68 @@ export const CreateMenuDropdown = ({
       };
     }
     return {};
+  };
+
+  const renderAdditionalOptions = () => {
+    if (showUnsplashPanel) {
+      return <UnsplashPhotosPanel onClose={handleUnsplashClose} />;
+    }
+
+    return (
+      <div className="additional-options-dropdown">
+        <div className="additional-backgrounds-section">
+          <div className="additional-backgrounds-header">
+            <h4 className="additional-options-title">Дополнительные фоны</h4>
+            <div className="show-more-button">
+              <Button 
+                buttonStyle="icon" 
+                onClick={handleShowMoreBackgrounds}
+                label="Показать больше"
+                customClassName="show-more-button-custom"
+              />
+            </div>
+          </div>
+          <div className="additional-backgrounds-grid">
+            {additionalBackgroundButtons.map((bg) => (
+              <button
+                key={bg.id}
+                className={`background-button ${lastSelectedType === 'background' && selectedBackground === bg.background ? 'selected' : ''}`}
+                style={{ backgroundImage: `url(${bg.background})` }}
+                title={bg.title}
+                onClick={() => handleBackgroundSelect(bg.background, bg.title)}
+              >
+                {lastSelectedType === 'background' && selectedBackground === bg.background && (
+                  <span className="selected-check">
+                    <CheckIcon size={16} color="#fff" />
+                  </span>
+                )}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="additional-colors-section">
+          <h4 className="additional-options-title">Дополнительные цвета</h4>
+          <div className="additional-colors-grid">
+            {additionalColorButtons.map((btn) => (
+              <button
+                key={btn.id}
+                className={`color-button ${lastSelectedType === 'color' && selectedColor === btn.color ? 'selected' : ''}`}
+                style={{ backgroundColor: btn.color }}
+                title={btn.title}
+                onClick={() => handleColorSelect(btn)}
+              >
+                {lastSelectedType === 'color' && selectedColor === btn.color && (
+                  <span className="selected-check">
+                    <CheckIcon size={16} color="#fff" />
+                  </span>
+                )}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
   };
 
   return (
@@ -152,61 +228,7 @@ export const CreateMenuDropdown = ({
                           </div>
                         </div>
                       }
-                      panelContent={
-                        <div className="additional-options-dropdown">
-                          <div className="additional-backgrounds-section">
-                            <div className="additional-backgrounds-header">
-                              <h4 className="additional-options-title">Дополнительные фоны</h4>
-                              <div className="show-more-button">
-                                <Button 
-                                    buttonStyle="icon" 
-                                    onClick={() => console.log('Показать больше фонов')}
-                                    label="Показать больше"
-                                    customClassName="show-more-button-custom"
-                                  />
-                              </div>
-                            </div>
-                            <div className="additional-backgrounds-grid">
-                              {additionalBackgroundButtons.map((bg) => (
-                                <button
-                                  key={bg.id}
-                                  className={`background-button ${lastSelectedType === 'background' && selectedBackground === bg.background ? 'selected' : ''}`}
-                                  style={{ backgroundImage: `url(${bg.background})` }}
-                                  title={bg.title}
-                                  onClick={() => handleBackgroundSelect(bg.background, bg.title)}
-                                >
-                                  {lastSelectedType === 'background' && selectedBackground === bg.background && (
-                                    <span className="selected-check">
-                                      <CheckIcon size={16} color="#fff" />
-                                    </span>
-                                  )}
-                                </button>
-                              ))}
-                            </div>
-                          </div>
-
-                          <div className="additional-colors-section">
-                            <h4 className="additional-options-title">Дополнительные цвета</h4>
-                            <div className="additional-colors-grid">
-                              {additionalColorButtons.map((btn) => (
-                                <button
-                                  key={btn.id}
-                                  className={`color-button ${lastSelectedType === 'color' && selectedColor === btn.color ? 'selected' : ''}`}
-                                  style={{ backgroundColor: btn.color }}
-                                  title={btn.title}
-                                  onClick={() => handleColorSelect(btn)}
-                                >
-                                  {lastSelectedType === 'color' && selectedColor === btn.color && (
-                                    <span className="selected-check">
-                                      <CheckIcon size={16} color="#fff" />
-                                    </span>
-                                  )}
-                                </button>
-                              ))}
-                            </div>
-                          </div>
-                        </div>
-                      }
+                      panelContent={renderAdditionalOptions()}
                       panelClassName="additional-options-dropdown-panel"
                       anchor="right start"
                       menuType="color-picker"
@@ -256,7 +278,11 @@ export const CreateMenuDropdown = ({
           </div>
         }
         onOpen={onOpen}
-        onClose={onClose}
+        onClose={() => {
+          setShowUnsplashPanel(false);
+          dispatch(clearUnsplashPhotos());
+          onClose?.();
+        }}
         asButton={false}
         menuType="create"
       />
