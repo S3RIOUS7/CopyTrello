@@ -52,32 +52,36 @@ export const backgroundButtons: BackgroundButton[] = [
 export const additionalColorButtons: ColorButton[] = [
   {
     id: 'color7',
-    color: '#EF7564',
-    title: 'Красный'
+    color: 'linear-gradient(to bottom right, #8B0000 0%, #FF6347 100%)',
+    title: 'Красный градиент',
+    isGradient: true
   },
   {
     id: 'color8',
-    color: '#CF9F69',
-    title: 'Коричневый'
+    color: 'linear-gradient(to bottom right, #6CB4EE 0%, #E6F2FF 100%)',
+    title: 'Градиент голубой'
   },
   {
     id: 'color9',
-    color: '#E774BB',
-    title: 'Розовый'
+     color: 'linear-gradient(to bottom right, #FF6347 0%, #FFA500 100%)',
+    title: 'Градиент оранжевый'
   },
   {
     id: 'color10',
-    color: '#CD5A91',
-    title: 'Темно-розовый'
+     color: 'linear-gradient(to bottom right, #FF69B4 0%, #FFB6C1 100%)',
+    title: 'Бледно-розовый градиент'
   },
   {
     id: 'color11',
-    color: '#A548AE',
-    title: 'Фиолетовый'
+    color: 'linear-gradient(to bottom right, #6A0DAD 0%, #C9A0DC 100%)',
+    title: 'Фиолетовый градиет'
   },
   {
     id: 'color12',
-    color: '#6C5ECC',
-    title: 'Сине-фиолетовый'
+   color: 'linear-gradient(to bottom right, #4B0082 0%, #9370DB 100%)',
+    title: 'Сине-фиолетовый градиет'
   }
 ];
+
+
+

@@ -53,13 +53,15 @@ export const CreateMenuDropdown = ({
   const { selectedBackground, selectedColor, lastSelectedType } = useSelector((state: RootState) => state.background);
   const [showUnsplashPanel, setShowUnsplashPanel] = useState(false);
 
-  const handleBackgroundSelect = (background: string, title: string) => {
-    dispatch(selectBackground({ background, title, id: `bg-${Date.now()}` }));
-  };
+ const handleBackgroundSelect = (background: string, title: string) => {
+  dispatch(selectBackground({ background, title, id: `bg-${Date.now()}` }));
+  // Не сбрасываем цвет здесь - это будет делаться в редьюсере
+};
 
   const handleColorSelect = (button: typeof colorButtons[0] | typeof additionalColorButtons[0]) => {
-    dispatch(selectColor(button));
-  };
+  dispatch(selectColor(button));
+  // Не сбрасываем фон здесь - это будет делаться в редьюсере
+};
 
   const handleShowMoreBackgrounds = () => {
     setShowUnsplashPanel(true);
@@ -71,21 +73,20 @@ export const CreateMenuDropdown = ({
   };
 
   const getIconStyle = (): React.CSSProperties => {
-    if (selectedBackground) {
-      return { 
-        backgroundImage: `url(${selectedBackground})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center'
-      };
-    }
-    if (selectedColor) {
-      return { 
-        backgroundColor: selectedColor,
-        backgroundImage: 'none'
-      };
-    }
-    return {};
-  };
+  if (selectedBackground) {
+    return { 
+      backgroundImage: `url(${selectedBackground})`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center'
+    };
+  }
+  if (selectedColor) {
+    return { 
+      background: selectedColor
+    };
+  }
+  return {};
+};
 
   const renderAdditionalOptions = () => {
     if (showUnsplashPanel) {
@@ -132,7 +133,10 @@ export const CreateMenuDropdown = ({
               <button
                 key={btn.id}
                 className={`color-button ${lastSelectedType === 'color' && selectedColor === btn.color ? 'selected' : ''}`}
-                style={{ backgroundColor: btn.color }}
+                style={{ 
+                  background: btn.color,
+                  ...(btn.isGradient ? {} : { backgroundColor: btn.color })
+                }}
                 title={btn.title}
                 onClick={() => handleColorSelect(btn)}
               >

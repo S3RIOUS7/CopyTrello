@@ -9,6 +9,7 @@ export interface ColorButton {
   color: string;
   title: string;
   isMenuTrigger?: boolean;
+  isGradient?: boolean;
 }
 
 export interface UnsplashPhoto {

@@ -13,12 +13,18 @@ const backgroundSlice = createSlice({
   reducers: {
     selectBackground: (state, action: PayloadAction<BackgroundButton>) => {
       state.selectedBackground = action.payload.background;
-      state.selectedColor = null;
+      // Сбрасываем цвет только если он был выбран ранее
+      if (state.lastSelectedType === 'color') {
+        state.selectedColor = null;
+      }
       state.lastSelectedType = 'background';
     },
     selectColor: (state, action: PayloadAction<ColorButton>) => {
       state.selectedColor = action.payload.color;
-      state.selectedBackground = null;
+      // Сбрасываем фон только если он был выбран ранее
+      if (state.lastSelectedType === 'background') {
+        state.selectedBackground = null;
+      }
       state.lastSelectedType = 'color';
     },
     clearSelection: (state) => {
