@@ -1,3 +1,4 @@
+import { LocalStorageManager } from "../../../../services/localStorageService";
 import type { BackgroundButton, BackgroundState, ColorButton } from "../../../../store/types/backgroudTypes/backgroundTypes";
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
@@ -7,30 +8,53 @@ const initialState: BackgroundState = {
   lastSelectedType: null,
 };
 
+// Загружаем сохраненные данные из localStorage при инициализации
+const savedBackground = LocalStorageManager.getBackground();
+if (savedBackground) {
+  initialState.selectedBackground = savedBackground.selectedBackground;
+  initialState.selectedColor = savedBackground.selectedColor;
+  initialState.lastSelectedType = savedBackground.lastSelectedType;
+}
+
 const backgroundSlice = createSlice({
   name: 'background',
   initialState,
   reducers: {
     selectBackground: (state, action: PayloadAction<BackgroundButton>) => {
       state.selectedBackground = action.payload.background;
-      // Сбрасываем цвет только если он был выбран ранее
       if (state.lastSelectedType === 'color') {
         state.selectedColor = null;
       }
       state.lastSelectedType = 'background';
+      
+      // Сохраняем в localStorage
+      LocalStorageManager.saveBackground({
+        selectedBackground: state.selectedBackground,
+        selectedColor: state.selectedColor,
+        lastSelectedType: state.lastSelectedType,
+      });
     },
     selectColor: (state, action: PayloadAction<ColorButton>) => {
       state.selectedColor = action.payload.color;
-      // Сбрасываем фон только если он был выбран ранее
       if (state.lastSelectedType === 'background') {
         state.selectedBackground = null;
       }
       state.lastSelectedType = 'color';
+      
+      // Сохраняем в localStorage
+      LocalStorageManager.saveBackground({
+        selectedBackground: state.selectedBackground,
+        selectedColor: state.selectedColor,
+        lastSelectedType: state.lastSelectedType,
+      });
     },
     clearSelection: (state) => {
       state.selectedBackground = null;
       state.selectedColor = null;
       state.lastSelectedType = null;
+      
+      // Очищаем localStorage
+      LocalStorageManager.clearBackground();
     },
   },
 });

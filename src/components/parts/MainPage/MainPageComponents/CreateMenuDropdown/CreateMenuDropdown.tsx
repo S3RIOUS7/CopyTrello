@@ -14,6 +14,8 @@ import { CheckIcon } from '../../../../base/icons/CheckIcon';
 import { OverflowMenuHorizontalIcon } from '../../../../../assets/img/icon/HorizontalMenuIcon';
 import { clearUnsplashPhotos } from '../../../../../store/actions/unsplashActions/unsplashActions';
 import { UnsplashPhotosPanel } from '../Unsplash/UnsplashPhotosPanel';
+import { validateFilename } from '../../../../../core/helpers/dashboardNameValidation';
+import { useNavigate } from 'react-router-dom';
 
 
 interface CreateMenuDropdownProps {
@@ -50,18 +52,36 @@ export const CreateMenuDropdown = ({
   showTrelloIcon = false,
 }: CreateMenuDropdownProps) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { selectedBackground, selectedColor, lastSelectedType } = useSelector((state: RootState) => state.background);
   const [showUnsplashPanel, setShowUnsplashPanel] = useState(false);
+  const [validationError, setValidationError] = useState<string | null>(null);
 
- const handleBackgroundSelect = (background: string, title: string) => {
-  dispatch(selectBackground({ background, title, id: `bg-${Date.now()}` }));
-  // Не сбрасываем цвет здесь - это будет делаться в редьюсере
-};
+  const handleCreate = () => {
+    const error = validateFilename(inputValue);
+    if (error) {
+      setValidationError(error);
+      return;
+    }
+    setValidationError(null);
+    onCreate();
+    navigate(`/Dashboard/${inputValue}`);
+  };
+
+  const handleInputChange = (value: string) => {
+    onInputChange(value);
+    if (validationError) {
+      setValidationError(null);
+    }
+  };
+
+  const handleBackgroundSelect = (background: string, title: string) => {
+    dispatch(selectBackground({ background, title, id: `bg-${Date.now()}` }));
+  };
 
   const handleColorSelect = (button: typeof colorButtons[0] | typeof additionalColorButtons[0]) => {
-  dispatch(selectColor(button));
-  // Не сбрасываем фон здесь - это будет делаться в редьюсере
-};
+    dispatch(selectColor(button));
+  };
 
   const handleShowMoreBackgrounds = () => {
     setShowUnsplashPanel(true);
@@ -73,20 +93,20 @@ export const CreateMenuDropdown = ({
   };
 
   const getIconStyle = (): React.CSSProperties => {
-  if (selectedBackground) {
-    return { 
-      backgroundImage: `url(${selectedBackground})`,
-      backgroundSize: 'cover',
-      backgroundPosition: 'center'
-    };
-  }
-  if (selectedColor) {
-    return { 
-      background: selectedColor
-    };
-  }
-  return {};
-};
+    if (selectedBackground) {
+      return { 
+        backgroundImage: `url(${selectedBackground})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center'
+      };
+    }
+    if (selectedColor) {
+      return { 
+        background: selectedColor
+      };
+    }
+    return {};
+  };
 
   const renderAdditionalOptions = () => {
     if (showUnsplashPanel) {
@@ -259,12 +279,19 @@ export const CreateMenuDropdown = ({
               })}
             </div>
             
-            <Input
-              value={inputValue}
-              onChange={onInputChange}
-              placeholder={inputPlaceholder}
-              className="create-menu-input"
-            />
+            <div className="input-wrapper">
+              <Input
+                value={inputValue}
+                onChange={handleInputChange}
+                placeholder={inputPlaceholder}
+                className="create-menu-input"
+              />
+              {validationError && (
+                <div className="validation-error">
+                  {validationError}
+                </div>
+              )}
+            </div>
             
             {afterInputContent && (
               <div className="create-menu-section after-input">
@@ -274,7 +301,7 @@ export const CreateMenuDropdown = ({
 
             <Button
               buttonStyle="create"
-              onClick={onCreate}
+              onClick={handleCreate}
               className="create-menu-button"
             >
               {createButtonText}

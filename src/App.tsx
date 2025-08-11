@@ -5,6 +5,7 @@ import { store } from './store/storage/store';
 import Header from './components/parts/Header/Header';
 import './index.css'
 import MainPage from './pages/mainPage/MainPage';
+import { DashBoard } from './pages/dashBoardPage/DashBoard';
 
 function App() {
   return (
@@ -14,7 +15,7 @@ function App() {
           <Header /> 
           <Routes>
             <Route path="/" element={<MainPage />}/>
-            
+            <Route path="/Dashboard/:boardId" element={<DashBoard />} />
           </Routes>
         </Fragment>
       </Provider>
