@@ -25,4 +25,5 @@ export interface BackgroundState {
   selectedBackground: string | null;
   selectedColor: string | null;
   lastSelectedType: 'background' | 'color' | null;
+   isHeaderTransparent: boolean;
 }

@@ -12,7 +12,7 @@ function App() {
     <Router>
       <Provider store={store}>
         <Fragment>
-          <Header /> 
+          <Header /> {/* Теперь Header вне Routes */}
           <Routes>
             <Route path="/" element={<MainPage />}/>
             <Route path="/Dashboard/:boardId" element={<DashBoard />} />

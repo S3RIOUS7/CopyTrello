@@ -1,19 +1,23 @@
 import { LocalStorageManager } from "../../../../services/localStorageService";
 import type { BackgroundButton, BackgroundState, ColorButton } from "../../../../store/types/backgroudTypes/backgroundTypes";
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
+import { backgroundButtons } from "../../../../utils/constants/mainPageConstants/buttonsBackground/backgroundButtonsFirstmenu";
 
 const initialState: BackgroundState = {
-  selectedBackground: null,
+  selectedBackground: backgroundButtons[0].background, // Устанавливаем первый фон по умолчанию
   selectedColor: null,
-  lastSelectedType: null,
+  lastSelectedType: 'background', // Устанавливаем тип, так как используем фон
+   isHeaderTransparent: false // Добавляем новое поле
 };
 
-// Загружаем сохраненные данные из localStorage при инициализации
-const savedBackground = LocalStorageManager.getBackground();
-if (savedBackground) {
-  initialState.selectedBackground = savedBackground.selectedBackground;
-  initialState.selectedColor = savedBackground.selectedColor;
-  initialState.lastSelectedType = savedBackground.lastSelectedType;
+// Только если это не первый запуск - загружаем из localStorage
+if (!LocalStorageManager.isFirstLaunch()) {
+  const savedBackground = LocalStorageManager.getBackground();
+  if (savedBackground) {
+    initialState.selectedBackground = savedBackground.selectedBackground;
+    initialState.selectedColor = savedBackground.selectedColor;
+    initialState.lastSelectedType = savedBackground.lastSelectedType;
+  }
 }
 
 const backgroundSlice = createSlice({
@@ -27,7 +31,6 @@ const backgroundSlice = createSlice({
       }
       state.lastSelectedType = 'background';
       
-      // Сохраняем в localStorage
       LocalStorageManager.saveBackground({
         selectedBackground: state.selectedBackground,
         selectedColor: state.selectedColor,
@@ -41,7 +44,6 @@ const backgroundSlice = createSlice({
       }
       state.lastSelectedType = 'color';
       
-      // Сохраняем в localStorage
       LocalStorageManager.saveBackground({
         selectedBackground: state.selectedBackground,
         selectedColor: state.selectedColor,
@@ -53,11 +55,13 @@ const backgroundSlice = createSlice({
       state.selectedColor = null;
       state.lastSelectedType = null;
       
-      // Очищаем localStorage
       LocalStorageManager.clearBackground();
+    },
+      setHeaderTransparent: (state, action: PayloadAction<boolean>) => {
+      state.isHeaderTransparent = action.payload;
     },
   },
 });
 
-export const { selectBackground, selectColor, clearSelection } = backgroundSlice.actions;
+export const { selectBackground, selectColor, clearSelection, setHeaderTransparent } = backgroundSlice.actions;
 export default backgroundSlice.reducer;

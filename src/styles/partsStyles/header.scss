@@ -55,6 +55,7 @@
     
     .right-button-container {
       justify-content: flex-end;
+      
     }
     
     .middle-button-container {
@@ -109,6 +110,7 @@
 .help-icon-trigger svg {
   width: 25px;
   height: 25px;
+  
 }
 
 .avatar-icon-trigger svg {
@@ -116,14 +118,16 @@
   height: 32px;
   border-radius: 50%;
   background-color: #dfe1e6;
+  
 }
 
 .help-drop-menu, .drop-menu {
-  
+   
   width: 304px;
   background: #fff;
   border-radius: 8px;
-
+  border: 1px black solid;
+ box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
   
   .help-menu-item, .menu-item {
     margin-bottom: 12px;
@@ -131,6 +135,7 @@
     align-items: center;
     padding: 6px 12px;
     cursor: pointer;
+    
     
     &:hover {
       background-color: #f4f5f7;
@@ -310,5 +315,66 @@
   to {
     opacity: 0;
     transform: translateY(-12px);
+  }
+}
+.transparent-header {
+  background-color: transparent !important;
+  box-shadow: none !important;
+  
+  .header-buttons {
+    button, .grid-icon-trigger, .help-icon-trigger {
+      color: white !important;
+      
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.3) !important;
+      }
+      
+      &[aria-expanded="true"] {
+        background-color: rgba(228, 240, 246, 0.7) !important;
+      }
+      
+      svg {
+        fill: white !important;
+      }
+    }
+    
+    .trello {
+      color: white !important;
+      text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3) !important;
+    }
+    
+    .header-input {
+      background-color: rgba(255, 255, 255, 0.3) !important;
+      color: white !important;
+      
+      &::placeholder {
+        color: rgba(255, 255, 255, 0.7) !important;
+      }
+      
+      &:focus {
+        background-color: white !important;
+        color: #172b4d !important;
+      }
+    }
+    
+    .transparent-button {
+      background-color: rgba(255, 255, 255, 0.3) !important;
+      color: white !important;
+      
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.5) !important;
+      }
+    }
+  }
+  
+  .light-icon {
+    svg {
+      fill: white !important;
+    }
+  }
+  
+  .light-avatar {
+    background-color: rgba(255, 255, 255, 0.3) !important;
+    border: 1px solid rgba(255, 255, 255, 0.5) !important;
   }
 }

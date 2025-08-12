@@ -32,4 +32,8 @@ export class LocalStorageManager {
       console.error('Error clearing background from localStorage:', error);
     }
   }
+
+  static isFirstLaunch(): boolean {
+    return !localStorage.getItem(this.BACKGROUND_KEY);
+  }
 }
