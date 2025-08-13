@@ -6,22 +6,94 @@
   padding: 5px 8px;
   background-color: #fff;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
-  
+
+  &.transparent {
+    background-color: transparent;
+    box-shadow: none;
+
+    .header-buttons {
+      .left-button-container,
+      .right-button-container {
+        button {
+          color: white;
+          background-color: rgba(255, 255, 255, 0.1);
+
+          &:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+          }
+        }
+
+        .main-trello .trello {
+          color: white;
+          text-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+        }
+      }
+
+      .middle-button-container {
+        .search-composite {
+          .header-input {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+
+            &::placeholder {
+              color: rgba(255, 255, 255, 0.7);
+            }
+          }
+
+          .buttonContainer.search {
+            background-color: rgba(255, 255, 255, 0.3);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+
+            &:hover {
+              background-color: rgba(255, 255, 255, 0.4);
+            }
+          }
+        }
+      }
+
+      .grid-icon-trigger,
+      .help-icon-trigger,
+      .avatar-icon-trigger {
+        background-color: rgba(255, 255, 255, 0.1);
+        color: white;
+
+        &:hover {
+          background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        &[aria-expanded="true"] {
+          background-color: rgba(255, 255, 255, 0.3);
+        }
+
+        svg {
+          fill: white;
+        }
+      }
+
+      .avatar-icon-trigger svg {
+        background-color: rgba(255, 255, 255, 0.3);
+      }
+    }
+  }
+
   .header-buttons {
     display: flex;
     width: 100%;
     justify-content: space-between;
     align-items: center;
     gap: 16px;
-    
-    .left-button-container, .right-button-container {
+
+    .left-button-container,
+    .right-button-container {
       display: flex;
       gap: 8px;
       justify-content: flex-start;
       flex: 1;
       min-width: 200px;
       align-items: center;
-      
+
       button {
         display: flex;
         align-items: center;
@@ -30,18 +102,18 @@
         padding: 6px 12px;
         border-radius: 4px;
         transition: background-color 0.2s ease;
-        
+
         &:hover {
           background-color: #091E4224;
         }
       }
-    
+
       .main-trello {
         display: flex;
         align-items: center;
         justify-content: center;
         gap: 8px;
-        
+
         .trello {
           font-size: 14px;
           padding-left: 5px;
@@ -52,12 +124,11 @@
         }
       }
     }
-    
+
     .right-button-container {
       justify-content: flex-end;
-      
     }
-    
+
     .middle-button-container {
       display: flex;
       align-items: center;
@@ -68,7 +139,7 @@
 
       .search-wrapper {
         width: 100%;
-        
+
         .search-composite {
           display: flex;
           width: 100%;
@@ -78,7 +149,9 @@
   }
 }
 
-.grid-icon-trigger, .help-icon-trigger, .avatar-icon-trigger {
+.grid-icon-trigger,
+.help-icon-trigger,
+.avatar-icon-trigger {
   background: none;
   border: none;
   cursor: pointer;
@@ -95,12 +168,12 @@
 
   &[aria-expanded="true"] {
     background-color: #E4F0F6;
-    
+
     svg {
       fill: #0079BF;
     }
   }
-  
+
   svg {
     width: 20px;
     height: 20px;
@@ -110,7 +183,6 @@
 .help-icon-trigger svg {
   width: 25px;
   height: 25px;
-  
 }
 
 .avatar-icon-trigger svg {
@@ -118,35 +190,34 @@
   height: 32px;
   border-radius: 50%;
   background-color: #dfe1e6;
-  
 }
 
-.help-drop-menu, .drop-menu {
-   
+.help-drop-menu,
+.drop-menu {
   width: 304px;
   background: #fff;
   border-radius: 8px;
   border: 1px black solid;
- box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-  
-  .help-menu-item, .menu-item {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+
+  .help-menu-item,
+  .menu-item {
     margin-bottom: 12px;
     display: flex;
     align-items: center;
     padding: 6px 12px;
     cursor: pointer;
-    
-    
+
     &:hover {
       background-color: #f4f5f7;
       border-radius: 4px;
     }
-    
+
     .help-content-wrapper {
       display: flex;
       flex-direction: column;
       align-items: center;
-      
+
       .fixed-size-help-image {
         width: 280px;
         height: 160px;
@@ -154,10 +225,10 @@
         border-radius: 4px;
         margin-bottom: 12px;
       }
-      
+
       .fixed-width-caption {
         width: 280px;
-        font-size: 12px; /* Уменьшенный размер шрифта */
+        font-size: 12px;
         line-height: 18px;
         color: #172b4d;
         text-align: center;
@@ -167,17 +238,17 @@
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, 'Fira Sans', 'Droid Sans', sans-serif;
       }
     }
-    
+
     .trello {
       margin-left: 8px;
-      font-size: 13px; /* Уменьшенный размер шрифта */
+      font-size: 13px;
       color: #172b4d;
     }
 
     .menu-button {
       width: 100%;
-      padding: 6px 12px; /* Уменьшенный padding */
-      font-size: 13px; /* Уменьшенный размер шрифта */
+      padding: 6px 12px;
+      font-size: 13px;
       color: #172b4d;
       text-align: left;
       border-radius: 4px;
@@ -188,7 +259,7 @@
       }
     }
   }
-  
+
   .help-menu-footer {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -202,7 +273,7 @@
     .help-footer-button {
       padding: 6px 8px;
       color: #5e6c84;
-      font-size: 11px; /* Уменьшенный размер шрифта */
+      font-size: 11px;
       background: none;
       border: none;
       border-radius: 3px;
@@ -211,28 +282,28 @@
       box-sizing: border-box;
       white-space: normal;
       word-break: break-word;
-      
+
       &:hover {
         background-color: #f4f5f7;
         color: #172b4d;
       }
-      
+
       &:nth-child(1),
       &:nth-child(2),
       &:nth-child(3) {
         grid-row: 1;
       }
-      
+
       &:nth-child(4) {
         grid-column: 1 / span 3;
         grid-row: 2;
       }
-      
+
       &:nth-child(5) {
         grid-column: 1 / span 3;
         grid-row: 3;
       }
-      
+
       &:nth-child(6) {
         grid-column: 1 / span 3;
         grid-row: 4;
@@ -241,29 +312,29 @@
   }
 
   .menu-group {
-    padding: 6px 0; /* Уменьшенный padding */
+    padding: 6px 0;
     border-bottom: 1px solid #e0e0e0;
-    
+
     &:last-child {
       border-bottom: none;
     }
-    
+
     .group-title {
-      padding: 6px 12px; /* Уменьшенный padding */
-      font-size: 11px; /* Уменьшенный размер шрифта */
+      padding: 6px 12px;
+      font-size: 11px;
       color: #5e6c84;
       font-weight: 500;
       text-transform: uppercase;
     }
-    
+
     .profile-item {
       display: flex;
       align-items: center;
-      padding: 6px 12px; /* Уменьшенный padding */
+      padding: 6px 12px;
       gap: 8px;
-      
+
       .profile-email {
-        font-size: 13px; /* Уменьшенный размер шрифта */
+        font-size: 13px;
         color: #172b4d;
       }
     }
@@ -283,7 +354,7 @@
   &[data-entering] {
     animation: fadeIn 0.2s ease-out;
   }
-  
+
   &[data-leaving] {
     animation: fadeOut 0.2s ease-in;
   }
@@ -315,66 +386,5 @@
   to {
     opacity: 0;
     transform: translateY(-12px);
-  }
-}
-.transparent-header {
-  background-color: transparent !important;
-  box-shadow: none !important;
-  
-  .header-buttons {
-    button, .grid-icon-trigger, .help-icon-trigger {
-      color: white !important;
-      
-      &:hover {
-        background-color: rgba(255, 255, 255, 0.3) !important;
-      }
-      
-      &[aria-expanded="true"] {
-        background-color: rgba(228, 240, 246, 0.7) !important;
-      }
-      
-      svg {
-        fill: white !important;
-      }
-    }
-    
-    .trello {
-      color: white !important;
-      text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3) !important;
-    }
-    
-    .header-input {
-      background-color: rgba(255, 255, 255, 0.3) !important;
-      color: white !important;
-      
-      &::placeholder {
-        color: rgba(255, 255, 255, 0.7) !important;
-      }
-      
-      &:focus {
-        background-color: white !important;
-        color: #172b4d !important;
-      }
-    }
-    
-    .transparent-button {
-      background-color: rgba(255, 255, 255, 0.3) !important;
-      color: white !important;
-      
-      &:hover {
-        background-color: rgba(255, 255, 255, 0.5) !important;
-      }
-    }
-  }
-  
-  .light-icon {
-    svg {
-      fill: white !important;
-    }
-  }
-  
-  .light-avatar {
-    background-color: rgba(255, 255, 255, 0.3) !important;
-    border: 1px solid rgba(255, 255, 255, 0.5) !important;
   }
 }
