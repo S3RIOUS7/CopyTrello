@@ -3,10 +3,21 @@ type BackgroundStorage = {
   selectedColor: string | null;
   lastSelectedType: 'background' | 'color' | null;
 };
+export interface Board {
+  id: string;
+  name: string;
+  background: string | null;
+  color: string | null;
+  createdAt: number;
+}
+
 
 export class LocalStorageManager {
   private static readonly BACKGROUND_KEY = 'dashboardBackground';
+  private static readonly BOARDS_KEY = 'userBoards';
 
+
+  // Методы для фона
   static saveBackground(background: BackgroundStorage): void {
     try {
       localStorage.setItem(this.BACKGROUND_KEY, JSON.stringify(background));
@@ -35,5 +46,32 @@ export class LocalStorageManager {
 
   static isFirstLaunch(): boolean {
     return !localStorage.getItem(this.BACKGROUND_KEY);
+  }
+
+  // Методы для досок
+  static saveBoards(boards: Board[]): void {
+    try {
+      localStorage.setItem(this.BOARDS_KEY, JSON.stringify(boards));
+    } catch (error) {
+      console.error('Error saving boards to localStorage:', error);
+    }
+  }
+
+  static getBoards(): Board[] {
+    try {
+      const data = localStorage.getItem(this.BOARDS_KEY);
+      return data ? JSON.parse(data) : [];
+    } catch (error) {
+      console.error('Error reading boards from localStorage:', error);
+      return [];
+    }
+  }
+
+  static clearBoards(): void {
+    try {
+      localStorage.removeItem(this.BOARDS_KEY);
+    } catch (error) {
+      console.error('Error clearing boards from localStorage:', error);
+    }
   }
 }

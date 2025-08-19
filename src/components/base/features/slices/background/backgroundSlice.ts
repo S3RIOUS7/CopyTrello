@@ -1,7 +1,7 @@
-import { LocalStorageManager } from "../../../../services/localStorageService";
-import type { BackgroundButton, BackgroundState, ColorButton } from "../../../../store/types/backgroudTypes/backgroundTypes";
+import { LocalStorageManager } from "../../../../../services/localStorageService";
+import type { BackgroundButton, BackgroundState, ColorButton } from "../../../../../store/types/backgroudTypes/backgroundTypes";
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import { backgroundButtons } from "../../../../utils/constants/mainPageConstants/buttonsBackground/backgroundButtonsFirstmenu";
+import { backgroundButtons } from "../../../../../utils/constants/mainPageConstants/buttonsBackground/backgroundButtonsFirstmenu";
 
 const initialState: BackgroundState = {
   selectedBackground: backgroundButtons[0].background, // Устанавливаем первый фон по умолчанию

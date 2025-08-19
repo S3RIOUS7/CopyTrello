@@ -9,7 +9,7 @@ import { backgroundButtons, colorButtons } from '../../../../../utils/constants/
 import { additionalColorButtons, backgroundButtons as additionalBackgroundButtons } from '../../../../../utils/constants/mainPageConstants/buttonsBackground/backgroundColorButtonSecondMenu';
 import { useDispatch, useSelector } from 'react-redux';
 import type { RootState } from '../../../../../store/storage/store';
-import { selectBackground, selectColor } from '../../../../base/features/background/backgroundSlice';
+import { selectBackground, selectColor } from '../../../../base/features/slices/background/backgroundSlice';
 import { CheckIcon } from '../../../../base/icons/CheckIcon';
 import { OverflowMenuHorizontalIcon } from '../../../../../assets/img/icon/HorizontalMenuIcon';
 import { clearUnsplashPhotos } from '../../../../../store/actions/unsplashActions/unsplashActions';
