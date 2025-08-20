@@ -10,12 +10,12 @@ import { additionalColorButtons, backgroundButtons as additionalBackgroundButton
 import { useDispatch, useSelector } from 'react-redux';
 import type { RootState } from '../../../../../store/storage/store';
 import { selectBackground, selectColor } from '../../../../base/features/slices/background/backgroundSlice';
-import { CheckIcon } from '../../../../base/icons/CheckIcon';
+import { CheckIcon } from '../../../../../assets/img/icon/CheckIcon';
 import { OverflowMenuHorizontalIcon } from '../../../../../assets/img/icon/HorizontalMenuIcon';
 import { clearUnsplashPhotos } from '../../../../../store/actions/unsplashActions/unsplashActions';
 import { UnsplashPhotosPanel } from '../Unsplash/UnsplashPhotosPanel';
 import { validateFilename } from '../../../../../core/helpers/dashboardNameValidation';
-import { useNavigate } from 'react-router-dom';
+
 
 
 interface CreateMenuDropdownProps {
@@ -52,7 +52,6 @@ export const CreateMenuDropdown = ({
   showTrelloIcon = false,
 }: CreateMenuDropdownProps) => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const { selectedBackground, selectedColor, lastSelectedType } = useSelector((state: RootState) => state.background);
   const [showUnsplashPanel, setShowUnsplashPanel] = useState(false);
   const [validationError, setValidationError] = useState<string | null>(null);
@@ -64,8 +63,7 @@ export const CreateMenuDropdown = ({
       return;
     }
     setValidationError(null);
-    onCreate();
-    navigate(`/Dashboard/${inputValue}`);
+    onCreate(); // Навигация теперь в MainComponent
   };
 
   const handleInputChange = (value: string) => {

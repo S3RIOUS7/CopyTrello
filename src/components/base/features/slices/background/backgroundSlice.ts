@@ -1,24 +1,15 @@
-import { LocalStorageManager } from "../../../../../services/localStorageService";
+
 import type { BackgroundButton, BackgroundState, ColorButton } from "../../../../../store/types/backgroudTypes/backgroundTypes";
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import { backgroundButtons } from "../../../../../utils/constants/mainPageConstants/buttonsBackground/backgroundButtonsFirstmenu";
 
 const initialState: BackgroundState = {
-  selectedBackground: backgroundButtons[0].background, // Устанавливаем первый фон по умолчанию
+  selectedBackground: backgroundButtons[0].background,
   selectedColor: null,
-  lastSelectedType: 'background', // Устанавливаем тип, так как используем фон
-   isHeaderTransparent: false // Добавляем новое поле
+  lastSelectedType: 'background',
+  isHeaderTransparent: false,
+  // Убираем сохранение фона при инициализации, так как теперь фон хранится в каждой доске
 };
-
-// Только если это не первый запуск - загружаем из localStorage
-if (!LocalStorageManager.isFirstLaunch()) {
-  const savedBackground = LocalStorageManager.getBackground();
-  if (savedBackground) {
-    initialState.selectedBackground = savedBackground.selectedBackground;
-    initialState.selectedColor = savedBackground.selectedColor;
-    initialState.lastSelectedType = savedBackground.lastSelectedType;
-  }
-}
 
 const backgroundSlice = createSlice({
   name: 'background',
@@ -30,12 +21,6 @@ const backgroundSlice = createSlice({
         state.selectedColor = null;
       }
       state.lastSelectedType = 'background';
-      
-      LocalStorageManager.saveBackground({
-        selectedBackground: state.selectedBackground,
-        selectedColor: state.selectedColor,
-        lastSelectedType: state.lastSelectedType,
-      });
     },
     selectColor: (state, action: PayloadAction<ColorButton>) => {
       state.selectedColor = action.payload.color;
@@ -43,25 +28,34 @@ const backgroundSlice = createSlice({
         state.selectedBackground = null;
       }
       state.lastSelectedType = 'color';
-      
-      LocalStorageManager.saveBackground({
-        selectedBackground: state.selectedBackground,
-        selectedColor: state.selectedColor,
-        lastSelectedType: state.lastSelectedType,
-      });
     },
     clearSelection: (state) => {
       state.selectedBackground = null;
       state.selectedColor = null;
       state.lastSelectedType = null;
-      
-      LocalStorageManager.clearBackground();
     },
-      setHeaderTransparent: (state, action: PayloadAction<boolean>) => {
+    setHeaderTransparent: (state, action: PayloadAction<boolean>) => {
       state.isHeaderTransparent = action.payload;
+    },
+    // Новый action для установки фона конкретной доски
+    setBoardBackground: (state, action: PayloadAction<{background: string | null, color: string | null}>) => {
+      if (action.payload.background) {
+        state.selectedBackground = action.payload.background;
+        state.selectedColor = null;
+        state.lastSelectedType = 'background';
+      } else if (action.payload.color) {
+        state.selectedColor = action.payload.color;
+        state.selectedBackground = null;
+        state.lastSelectedType = 'color';
+      } else {
+        // Если ничего не передано, используем фон по умолчанию
+        state.selectedBackground = backgroundButtons[0].background;
+        state.selectedColor = null;
+        state.lastSelectedType = 'background';
+      }
     },
   },
 });
 
-export const { selectBackground, selectColor, clearSelection, setHeaderTransparent } = backgroundSlice.actions;
+export const { selectBackground, selectColor, clearSelection, setHeaderTransparent, setBoardBackground } = backgroundSlice.actions;
 export default backgroundSlice.reducer;
