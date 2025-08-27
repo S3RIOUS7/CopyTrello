@@ -72,3 +72,38 @@
   }
 }
   
+.addCartButton {
+  display: block;
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  max-width: 272px;
+  height: 50px;
+  padding: var(--ds-space-100, 8px);
+  overflow: hidden;
+  border: none;
+  border-radius: var(--ds-border-radius-200, 8px);
+  background-color: var(--ds-skeleton, #091e420f);
+  background-position: center center;
+  background-size: cover;
+  color: var(--ds-text-subtle, #d5d9df);
+  font-weight: var(--ds-font-weight-regular, 400);
+  text-align: center;
+  margin: var(--ds-space-0, 0);
+  font-size: 14px;
+  
+  &:hover {
+    background-color: var(--ds-background-neutral-hovered, #091e4224);
+    cursor: pointer;
+  }
+
+  // Дополнительные классы из примера
+  &.with-margin {
+    margin: var(--ds-space-200, 16px);
+  }
+  
+  &.with-large-padding {
+    padding: var(--ds-space-300, 24px);
+  }
+}

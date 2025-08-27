@@ -4,7 +4,7 @@ import boardsReducer from '../../components/base/features/slices/boardSlice/boar
 import createSagaMiddleware from 'redux-saga';
 import unsplashReducer from '../redusers/unsplashReducer/unsplashReducer';
 import { unsplashSaga } from '../sagas/unsplashSaga/unsplashSaga';
-
+import { addButtonReducer } from '../redusers/addButtonReducer/addButtonReducer';
 const sagaMiddleware = createSagaMiddleware();
 
 export const store = configureStore({
@@ -12,8 +12,14 @@ export const store = configureStore({
     background: backgroundReducer,
     boards: boardsReducer,
     unsplash: unsplashReducer,
+    container: addButtonReducer, // Используем правильный импорт
   },
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(sagaMiddleware),
+  middleware: (getDefaultMiddleware) => 
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: ['persist/PERSIST'], // Если используете persist
+      },
+    }).concat(sagaMiddleware),
 });
 
 sagaMiddleware.run(unsplashSaga);

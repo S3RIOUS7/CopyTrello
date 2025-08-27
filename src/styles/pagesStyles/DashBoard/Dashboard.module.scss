@@ -14,3 +14,32 @@
   padding: 20px;
 
 }
+.content {
+  position: relative;
+  padding: 20px;
+}
+
+.containersList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.containerItem {
+  background: white;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  min-width: 200px;
+}
+
+.containerContent {
+  word-break: break-word;
+}
+
+.addButton {
+  display: flex;
+  justify-content: flex-end; // Кнопка будет справа
+  margin-top: 20px;
+}

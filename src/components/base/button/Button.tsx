@@ -11,7 +11,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   label?:string;
   customClassName?: string;
 }
-type VariantButton = 'search' | 'icon' | 'create';
+type VariantButton = 'search' | 'icon' | 'create' | 'addCartButton';
 type ButtonType = 'submit' | 'reset' | 'button';
 
 const Button: FC<ButtonProps> = ({
