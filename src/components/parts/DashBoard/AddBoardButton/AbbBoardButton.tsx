@@ -5,6 +5,7 @@ import { addContainer } from "../../../../store/redusers/addButtonReducer/addBut
 import Button from "../../../base/button/Button";
 import { Input } from "../../../base/input/Input";
 import styles from '../../../../styles/pagesStyles/DashBoard/DashboardParts/addButton/AddButton.module.scss'
+import PlusIcon from "../../../../assets/img/icon/PlusIcon";
 
 interface AddButtonProps {
   boardId?: string;
@@ -45,7 +46,8 @@ export const AddButton: FC<AddButtonProps> = ({ boardId, className }) => {
           buttonStyle="addCartButton"
           type="button"
           onClick={() => setIsEditing(true)}
-          label="Добавить контейнер"
+          label="Добавить список"
+           icon={<PlusIcon size={16} />}
           customClassName={styles.addButton__toggle}
         />
       </div>
@@ -58,7 +60,7 @@ export const AddButton: FC<AddButtonProps> = ({ boardId, className }) => {
         <Input
           value={inputValue}
           onChange={handleInputChange}
-          placeholder="Введите содержимое контейнера..."
+          placeholder="Введите имя колонки..."
           className={styles.addButton__input}
           withSearchIcon={false}
           onKeyDown={(e) => {
@@ -73,7 +75,7 @@ export const AddButton: FC<AddButtonProps> = ({ boardId, className }) => {
         
         <div className={styles.addButton__actions}>
           <Button
-            buttonStyle="addCartButton"
+            buttonStyle="addList"
             type="button"
             onClick={handleAddContainer}
             label="Добавить"

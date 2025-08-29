@@ -1,38 +1,156 @@
 .addButton {
-  padding: 16px;
   background: transparent;
   border-radius: 12px;
   backdrop-filter: blur(10px);
   width: 272px;
-  transition: background 0.3s ease; 
+  transition: background 0.3s ease, padding 0.3s ease;
 
   &.editing {
     background: rgba(255, 255, 255, 0.8);
+    padding: 16px;
   }
 
-  &__controls {
+  // Стили для кнопки в закрытом состоянии
+  &__toggle {
     display: flex;
-    gap: 12px;
-    margin-bottom: 20px;
-    align-items: flex-start;
-    flex-wrap: wrap;
-  }
+    align-items: center;
+    justify-content: flex-start;
+    gap: 8px;
+    padding: 12px 16px;
+    width: 100%;
+    min-height: 40px;
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    cursor: pointer;
 
-  &__input {
-    flex: 1;
-    min-width: 250px;
-    
-    :global(.inputField) {
-      background: rgba(255, 255, 255, 0.8);
-      border: 2px solid #e1e5e9;
+    &:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: translateY(-1px);
+    }
+
+    // Стили для контейнера иконки
+    :global(.button-icon) {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 16px;
+      height: 16px;
       
-      &:focus {
-        border-color: #007bff;
-        background: white;
+      // Стили для span с классом icon-add
+      :global(.icon-add) {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+        
+        svg {
+          width: 100%;
+          height: 100%;
+          fill: currentColor;
+        }
       }
     }
   }
 
+  // Стили для открытого состояния (редактирование)
+  &__controls {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  &__input {
+    width: 100%;
+    
+    :global(.inputField) {
+      background: rgba(255, 255, 255, 0.9);
+      border: 2px solid #e1e5e9;
+      border-radius: 8px;
+      padding: 12px;
+      font-size: 14px;
+      
+      &:focus {
+        border-color: #007bff;
+        background: white;
+        outline: none;
+      }
+    }
+  }
+
+  &__actions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  // Стили для кнопок добавления и отмены
+  .addContainerButton,
+  .cancelButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    font-weight: 500;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-height: 36px;
+
+    :global(.button-icon) {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      
+      :global(.icon-add) {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        
+        svg {
+          width: 14px;
+          height: 14px;
+          fill: currentColor;
+        }
+      }
+    }
+  }
+
+  .addContainerButton {
+    background: #007bff;
+    color: white;
+
+    &:hover:not(:disabled) {
+      background: #0056b3;
+      transform: translateY(-1px);
+    }
+
+    &:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+  }
+
+  .cancelButton {
+    background: transparent;
+    color: #6c757d;
+    border: 1px solid #dee2e6;
+
+    &:hover {
+      background: #f8f9fa;
+      border-color: #adb5bd;
+    }
+  }
+
+  // Стили для списка контейнеров
   &__list {
     display: grid;
     gap: 12px;
@@ -68,24 +186,118 @@
   }
 }
 
-.addContainerButton {
-  min-width: 100px;
-}
-
 // Адаптивность
 @media (max-width: 768px) {
   .addButton {
+    width: 100%;
+    max-width: 100%;
+    
+    &__toggle {
+      padding: 10px 12px;
+      font-size: 14px;
+      
+      :global(.button-icon) {
+        width: 14px;
+        height: 14px;
+        
+        :global(.icon-add) {
+          svg {
+            width: 14px;
+            height: 14px;
+          }
+        }
+      }
+    }
+
     &__controls {
+      gap: 10px;
+    }
+
+    &__actions {
+      flex-direction: row;
+      justify-content: space-between;
+    }
+
+    .addContainerButton,
+    .cancelButton {
+      flex: 1;
+      min-width: auto;
+      padding: 8px 12px;
+      font-size: 13px;
+      
+      :global(.button-icon) :global(.icon-add) {
+        svg {
+          width: 12px;
+          height: 12px;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .addButton {
+    &__actions {
       flex-direction: column;
     }
-    
-    &__input {
-      min-width: auto;
+
+    .addContainerButton,
+    .cancelButton {
       width: 100%;
     }
+  }
+}
+
+// Дополнительные стили для темной темы или специальных состояний
+.addButton {
+  &__toggle {
+    @media (prefers-color-scheme: dark) {
+      background: rgba(0, 0, 0, 0.2);
+      color: rgba(255, 255, 255, 0.9);
+      
+      &:hover {
+        background: rgba(0, 0, 0, 0.3);
+      }
+    }
+  }
+  
+  &.editing {
+    @media (prefers-color-scheme: dark) {
+      background: rgba(0, 0, 0, 0.8);
+      
+      .addButton__input :global(.inputField) {
+        background: rgba(255, 255, 255, 0.1);
+        color: white;
+        border-color: #495057;
+        
+        &:focus {
+          background: rgba(255, 255, 255, 0.15);
+          border-color: #007bff;
+        }
+      }
+    }
+  }
+}
+
+// Глобальные стили для центрирования иконки
+:global {
+  .button-icon {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
     
-    .addContainerButton {
-      width: 100%;
+    .icon-add {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      width: 100% !important;
+      height: 100% !important;
+      
+      svg {
+        width: 100% !important;
+        height: 100% !important;
+        fill: currentColor !important;
+      }
     }
   }
 }

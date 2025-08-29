@@ -79,7 +79,7 @@
   width: 100%;
   min-width: 0;
   max-width: 272px;
-  height: 50px;
+ 
   padding: var(--ds-space-100, 8px);
   overflow: hidden;
   border: none;
@@ -105,5 +105,23 @@
   
   &.with-large-padding {
     padding: var(--ds-space-300, 24px);
+  }
+}
+
+.addList {
+  text-align: center;
+  color: white;
+  padding: 0 12px 0 12px;
+  border-radius: 4px;
+  background-color: #0c66e4;
+  border: none;
+  
+  
+  &:hover {
+    cursor: pointer;
+  }
+  
+  &:active {  
+    cursor: pointer;
   }
 }

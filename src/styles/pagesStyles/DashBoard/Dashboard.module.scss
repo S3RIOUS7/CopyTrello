@@ -4,26 +4,43 @@
   left: 0;
   right: 0;
   bottom: 0;
-  z-index: -1; // Помещаем под header
+  z-index: -1;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 }
 
 .content {
-  padding: 20px;
-
-}
-.content {
   position: relative;
   padding: 20px;
+  min-height: 100vh;
+  box-sizing: border-box;
+  // Разрешаем скролл для всей страницы
+  overflow-x: auto;
+  width: 100%;
+}
+
+.adaptiveTitle {
+  width: 100%;
+  margin-bottom: 20px;
+  flex-shrink: 0; // Запрещаем сжатие заголовка
+}
+
+.containersAndButtonWrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 16px;
+  min-width: min-content; // Минимальная ширина по содержимому
+  flex-shrink: 0; // Запрещаем сжатие
 }
 
 .containersList {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: row;
   gap: 16px;
-  margin-bottom: 20px;
+  flex-wrap: nowrap;
+  align-items: flex-start;
 }
 
 .containerItem {
@@ -32,6 +49,8 @@
   padding: 16px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   min-width: 200px;
+  max-width: 200px;
+  flex-shrink: 0;
 }
 
 .containerContent {
@@ -39,7 +58,19 @@
 }
 
 .addButton {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  min-width: 200px;
+  flex-shrink: 0;
   display: flex;
-  justify-content: flex-end; // Кнопка будет справа
-  margin-top: 20px;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
 }

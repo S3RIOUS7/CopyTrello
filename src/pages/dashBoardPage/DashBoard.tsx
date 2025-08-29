@@ -77,25 +77,28 @@ export const DashBoard = () => {
           className={styles.adaptiveTitle}
         />
         
-        {/* Отдельный контейнер для списка созданных элементов */}
-        <div className={styles.containersList}>
-          {containers.map((container) => (
-            <div
-              key={container.id}
-              className={styles.containerItem}
-            >
-              <div className={styles.containerContent}>
-                {container.content}
+        {/* Общий контейнер для списка элементов и кнопки */}
+        <div className={styles.containersAndButtonWrapper}>
+          {/* Список созданных элементов */}
+          <div className={styles.containersList}>
+            {containers.map((container) => (
+              <div
+                key={container.id}
+                className={styles.containerItem}
+              >
+                <div className={styles.containerContent}>
+                  {container.content}
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
+          
+          {/* Кнопка добавления - будет всегда справа от контейнеров */}
+          <AddButton 
+            boardId={boardId}
+            className={styles.addButton}
+          />
         </div>
-        
-        {/* Кнопка добавления - теперь она будет перемещаться вправо */}
-        <AddButton 
-          boardId={boardId}
-          className={styles.addButton}
-        />
       </div>
     </>
   );
