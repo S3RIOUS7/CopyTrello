@@ -8,6 +8,12 @@
   &.editing {
     background: rgba(255, 255, 255, 0.8);
     padding: 16px;
+    
+    // Убираем анимацию при наведении в режиме редактирования
+    &:hover {
+      transform: none;
+      background: rgba(255, 255, 255, 0.8);
+    }
   }
 
   // Стили для кнопки в закрытом состоянии
@@ -62,6 +68,11 @@
     display: flex;
     flex-direction: column;
     gap: 12px;
+    
+    // Убираем анимацию при наведении на контролы в режиме редактирования
+    &:hover {
+      transform: none;
+    }
   }
 
   &__input {
@@ -79,6 +90,11 @@
         background: white;
         outline: none;
       }
+      
+      // Убираем анимацию при наведении на инпут
+      &:hover {
+        transform: none;
+      }
     }
   }
 
@@ -86,6 +102,11 @@
     display: flex;
     gap: 8px;
     align-items: center;
+    
+    // Убираем анимацию при наведении на actions
+    &:hover {
+      transform: none;
+    }
   }
 
   // Стили для кнопок добавления и отмены
@@ -147,6 +168,7 @@
     &:hover {
       background: #f8f9fa;
       border-color: #adb5bd;
+      transform: translateY(-1px);
     }
   }
 

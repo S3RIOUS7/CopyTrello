@@ -5,7 +5,6 @@ import styles from '../../styles/pagesStyles/DashBoard/Dashboard.module.scss';
 import { AdaptiveTitle } from '../../components/parts/DashBoard/AdaptiveTitle/AdaptiveTitle';
 import { useEffect } from 'react';
 import { setBoardBackground } from '../../components/base/features/slices/background/backgroundSlice';
-import type { BackgroundInfo } from '../../utils/hooks/colorText/useTextColor';
 import { AddButton } from '../../components/parts/DashBoard/AddBoardButton/AbbBoardButton';
 
 export const DashBoard = () => {
@@ -26,6 +25,12 @@ export const DashBoard = () => {
         background: currentBoard.background,
         color: currentBoard.color
       }));
+    } else {
+      // Сброс фона если доска не найдена
+      dispatch(setBoardBackground({
+        background: null,
+        color: null
+      }));
     }
   }, [boardId, currentBoard, dispatch]);
 
@@ -33,37 +38,23 @@ export const DashBoard = () => {
     paddingTop: '60px'
   };
   
-  if (selectedBackground) {
-    backgroundStyle.backgroundImage = `url(${selectedBackground})`;
+  // Определяем стиль фона
+  const effectiveBackground = selectedBackground || currentBoard?.background;
+  const effectiveColor = selectedColor || currentBoard?.color;
+  
+  if (effectiveBackground) {
+    backgroundStyle.backgroundImage = `url(${effectiveBackground})`;
     backgroundStyle.backgroundSize = 'cover';
     backgroundStyle.backgroundPosition = 'center';
     backgroundStyle.backgroundRepeat = 'no-repeat';
-  } else if (selectedColor) {
-    if (selectedColor.startsWith('linear-gradient')) {
-      backgroundStyle.backgroundImage = selectedColor;
+  } else if (effectiveColor) {
+    if (effectiveColor.startsWith('linear-gradient')) {
+      backgroundStyle.backgroundImage = effectiveColor;
     } else {
-      backgroundStyle.backgroundColor = selectedColor; 
-    }
-  } else if (currentBoard) {
-    if (currentBoard.background) {
-      backgroundStyle.backgroundImage = `url(${currentBoard.background})`;
-      backgroundStyle.backgroundSize = 'cover';
-      backgroundStyle.backgroundPosition = 'center';
-      backgroundStyle.backgroundRepeat = 'no-repeat';
-    } else if (currentBoard.color) {
-      if (currentBoard.color.startsWith('linear-gradient')) {
-        backgroundStyle.backgroundImage = currentBoard.color;
-      } else {
-        backgroundStyle.backgroundColor = currentBoard.color; 
-      }
+      backgroundStyle.backgroundColor = effectiveColor; 
     }
   }
 
-  const backgroundInfo: BackgroundInfo = {
-    selectedBackground,
-    selectedColor
-  };
-  
   return (
     <>
       <div 
@@ -73,7 +64,6 @@ export const DashBoard = () => {
       <div className={styles.content}>
         <AdaptiveTitle 
           boardId={boardId}
-          backgroundInfo={backgroundInfo}
           className={styles.adaptiveTitle}
         />
         

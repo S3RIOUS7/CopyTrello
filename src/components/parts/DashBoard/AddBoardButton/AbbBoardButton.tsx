@@ -6,6 +6,7 @@ import Button from "../../../base/button/Button";
 import { Input } from "../../../base/input/Input";
 import styles from '../../../../styles/pagesStyles/DashBoard/DashboardParts/addButton/AddButton.module.scss'
 import PlusIcon from "../../../../assets/img/icon/PlusIcon";
+import CancelIcon from "../../../../assets/img/icon/CancelIcon";
 
 interface AddButtonProps {
   boardId?: string;
@@ -83,10 +84,10 @@ export const AddButton: FC<AddButtonProps> = ({ boardId, className }) => {
             customClassName={styles.addContainerButton}
           />
           <Button
-            buttonStyle="addCartButton"
+            buttonStyle="icon"
             type="button"
             onClick={handleCancel}
-            label="Отмена"
+           icon={<CancelIcon size={16} />} 
             customClassName={styles.cancelButton}
           />
         </div>

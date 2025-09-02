@@ -4,20 +4,27 @@ import { useTextColor, type BackgroundInfo } from "../../../../utils/hooks/color
 
 interface AdaptiveTitleProps {
   boardId?: string;
-  backgroundInfo: BackgroundInfo;
   className?: string;
 }
 
 export const AdaptiveTitle: React.FC<AdaptiveTitleProps> = ({
   boardId,
-  backgroundInfo,
   className = ''
 }) => {
-  const textStyle = useTextColor(backgroundInfo);
-  
   // Получаем все доски чтобы найти название текущей
   const boards = useSelector((state: RootState) => state.boards.boards);
   const currentBoard = boards.find(board => board.id === boardId);
+  
+  // Получаем текущий фон из состояния
+  const { selectedBackground, selectedColor } = useSelector((state: RootState) => state.background);
+  
+  // Создаем backgroundInfo для useTextColor
+  const backgroundInfo: BackgroundInfo = {
+    selectedBackground: selectedBackground || currentBoard?.background,
+    selectedColor: selectedColor || currentBoard?.color
+  };
+  
+  const textStyle = useTextColor(backgroundInfo);
 
   return (
     <h1 
