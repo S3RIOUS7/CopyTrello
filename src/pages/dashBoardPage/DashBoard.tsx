@@ -6,6 +6,7 @@ import { AdaptiveTitle } from '../../components/parts/DashBoard/AdaptiveTitle/Ad
 import { useEffect } from 'react';
 import { setBoardBackground } from '../../components/base/features/slices/background/backgroundSlice';
 import { AddButton } from '../../components/parts/DashBoard/AddBoardButton/AbbBoardButton';
+import { ContainersList } from '../../components/parts/DashBoard/ContainerList/ContainerList';
 
 export const DashBoard = () => {
   const { boardId } = useParams<{ boardId: string }>();
@@ -69,19 +70,8 @@ export const DashBoard = () => {
         
         {/* Общий контейнер для списка элементов и кнопки */}
         <div className={styles.containersAndButtonWrapper}>
-          {/* Список созданных элементов */}
-          <div className={styles.containersList}>
-            {containers.map((container) => (
-              <div
-                key={container.id}
-                className={styles.containerItem}
-              >
-                <div className={styles.containerContent}>
-                  {container.content}
-                </div>
-              </div>
-            ))}
-          </div>
+          {/* Используем новый компонент для списка контейнеров */}
+          <ContainersList containers={containers} />
           
           {/* Кнопка добавления - будет всегда справа от контейнеров */}
           <AddButton 
