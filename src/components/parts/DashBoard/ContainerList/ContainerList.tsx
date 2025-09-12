@@ -1,28 +1,30 @@
 import React from 'react';
 import styles from '../../../../styles/pagesStyles/DashBoard/Dashboard.module.scss';
+import { ContainerItem } from '../ContainerItem/ContainerItem';
 
-interface ContainerItem {
+interface ContainerItemType {
   id: string;
   boardId: string;
   content: string;
+  cards: Array<{
+    id: string;
+    content: string;
+    containerId: string;
+  }>;
 }
 
 interface ContainersListProps {
-  containers: ContainerItem[];
+  containers: ContainerItemType[];
 }
 
 export const ContainersList: React.FC<ContainersListProps> = ({ containers }) => {
   return (
     <div className={styles.containersList}>
       {containers.map((container) => (
-        <div
+        <ContainerItem
           key={container.id}
-          className={styles.containerItem}
-        >
-          <div className={styles.containerContent}>
-            {container.content}
-          </div>
-        </div>
+          container={container}
+        />
       ))}
     </div>
   );

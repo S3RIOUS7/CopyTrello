@@ -8,14 +8,15 @@ import { setBoardBackground } from '../../components/base/features/slices/backgr
 import { AddButton } from '../../components/parts/DashBoard/AddBoardButton/AbbBoardButton';
 import { ContainersList } from '../../components/parts/DashBoard/ContainerList/ContainerList';
 
+
 export const DashBoard = () => {
   const { boardId } = useParams<{ boardId: string }>();
   const dispatch = useDispatch();
   
   const boards = useSelector((state: RootState) => state.boards.boards);
-  const containers = useSelector((state: RootState) => 
-    boardId ? state.container.containers.filter(container => container.boardId === boardId) : []
-  );
+ const containers = useSelector((state: RootState) => 
+  boardId ? state.container.containers.filter(container => container.boardId === boardId) : []
+);
 
   const currentBoard = boards.find(board => board.id === boardId);
   const { selectedBackground, selectedColor } = useSelector((state: RootState) => state.background);
@@ -27,7 +28,6 @@ export const DashBoard = () => {
         color: currentBoard.color
       }));
     } else {
-      // Сброс фона если доска не найдена
       dispatch(setBoardBackground({
         background: null,
         color: null
@@ -39,7 +39,6 @@ export const DashBoard = () => {
     paddingTop: '60px'
   };
   
-  // Определяем стиль фона
   const effectiveBackground = selectedBackground || currentBoard?.background;
   const effectiveColor = selectedColor || currentBoard?.color;
   
@@ -68,12 +67,8 @@ export const DashBoard = () => {
           className={styles.adaptiveTitle}
         />
         
-        {/* Общий контейнер для списка элементов и кнопки */}
         <div className={styles.containersAndButtonWrapper}>
-          {/* Используем новый компонент для списка контейнеров */}
           <ContainersList containers={containers} />
-          
-          {/* Кнопка добавления - будет всегда справа от контейнеров */}
           <AddButton 
             boardId={boardId}
             className={styles.addButton}
