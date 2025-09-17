@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '../../../../styles/pagesStyles/DashBoard/Dashboard.module.scss';
+import styles from "../../../../styles/pagesStyles/DashBoard/MenuscssPartsList/ContainerItem/ContainerItem.module.scss";
 import { ContainerItem } from '../ContainerItem/ContainerItem';
 
 interface ContainerItemType {

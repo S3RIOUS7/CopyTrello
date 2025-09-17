@@ -1,0 +1,27 @@
+.card {
+  background: white;
+  border-radius: 8px;
+  padding: 8px 12px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid #e1e4e8;
+  margin-bottom: 8px;
+  
+  &:hover {
+    background: #f8f9fa;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    border-color: #d0d7de;
+  }
+  
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.cardContent {
+  font-size: 14px;
+  color: #172b4d;
+  line-height: 1.4;
+  word-break: break-word;
+}

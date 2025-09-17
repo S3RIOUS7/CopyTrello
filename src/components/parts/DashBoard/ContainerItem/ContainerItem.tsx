@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card } from '../Card/Card';
 import { AddCardButton } from '../AddCardButton/AddCardButton';
-import styles from '../../../../styles/pagesStyles/DashBoard/Dashboard.module.scss';
+import styles from '../../../../styles/pagesStyles/DashBoard/MenuscssPartsList//ContainerItem/ContainerItem.module.scss';
 
 interface ContainerItemProps {
   container: {

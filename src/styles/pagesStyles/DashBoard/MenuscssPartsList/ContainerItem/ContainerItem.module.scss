@@ -1,0 +1,25 @@
+.containersList {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  flex-wrap: nowrap; // Важно: запрещаем перенос на новую строку
+  align-items: flex-start;
+  overflow-x: visible;
+}
+
+.containerItem {
+  background: #f1f2f4;
+  border-radius: 12px;
+  padding: 12px;
+  min-width: 272px;
+  max-width: 272px;
+  flex-shrink: 0; // Важно: запрещаем сжатие элементов
+  height: fit-content;
+  max-height: 100%;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.2s ease;
+  
+  &:hover {
+    background: #ebecf0;
+  }
+}

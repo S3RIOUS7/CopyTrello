@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '../../../../styles/pagesStyles/DashBoard/Dashboard.module.scss';
+import styles from '../../../../styles/pagesStyles/DashBoard/MenuscssPartsList//Card/Card.module.scss'
 
 interface CardProps {
   content: string;

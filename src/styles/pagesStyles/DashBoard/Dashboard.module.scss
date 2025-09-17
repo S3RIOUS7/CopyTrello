@@ -5,9 +5,11 @@
   right: 0;
   bottom: 0;
   z-index: -1;
-  background-size: cover;
+  background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
+   background-attachment: fixed;
+
 }
 
 .content {
@@ -33,6 +35,8 @@
   gap: 16px;
   min-width: min-content; // Минимальная ширина по содержимому
   flex-shrink: 0; // Запрещаем сжатие
+  overflow-x: auto; // Добавляем горизонтальную прокрутку если нужно
+  padding-bottom: 8px; // Добавляем отступ для скролла
 }
 
 .containersList {
