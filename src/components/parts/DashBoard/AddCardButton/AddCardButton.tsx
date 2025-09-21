@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { addCard } from '../../../../store/redusers/addButtonReducer/addButtonReducer';
+
 import { Input } from '../../../base/input/Input';
 import Button from '../../../base/button/Button';
 import styles from '../../../../styles/pagesStyles/DashBoard/MenuscssPartsList/AddCardButton/AddCardButton.module.scss';
-
+import { addCardToContainer } from '../../../../store/redusers/addButtonReducer/addButtonReducer';
+import { addCard } from '../../../base/features/slices/cardSlice/cardSlice';
 interface AddCardButtonProps {
   containerId: string;
 }
@@ -16,10 +17,22 @@ export const AddCardButton: React.FC<AddCardButtonProps> = ({ containerId }) => 
 
   const handleAddCard = () => {
     if (cardContent.trim()) {
+      const cardId = Date.now().toString();
+      
+      // Создаем карточку в редюсере cards
       dispatch(addCard({
-        content: cardContent,
+        id: cardId,
+        content: cardContent.trim(),
+        containerId: containerId,
+        checked: false
+      }));
+      
+      // Добавляем ID карточки в контейнер
+      dispatch(addCardToContainer({
+        cardId: cardId,
         containerId: containerId
       }));
+      
       setCardContent('');
       setIsAdding(false);
     }
@@ -30,12 +43,21 @@ export const AddCardButton: React.FC<AddCardButtonProps> = ({ containerId }) => 
     setIsAdding(false);
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      handleAddCard();
+    } else if (e.key === 'Escape') {
+      handleCancel();
+    }
+  };
+
   if (isAdding) {
     return (
       <div className={styles.addCardForm}>
         <Input
           value={cardContent}
           onChange={setCardContent}
+          onKeyDown={handleKeyDown}
           placeholder="Введите название карточки"
           autoFocus
           withSearchIcon={false}

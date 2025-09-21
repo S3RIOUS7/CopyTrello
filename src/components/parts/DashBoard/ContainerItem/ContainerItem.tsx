@@ -12,11 +12,17 @@ interface ContainerItemProps {
       id: string;
       content: string;
       containerId: string;
+      checked: boolean;
     }>;
   };
+  onCardCheck?: (cardId: string, checked: boolean) => void;
 }
 
-export const ContainerItem: React.FC<ContainerItemProps> = ({ container }) => {
+export const ContainerItem: React.FC<ContainerItemProps> = ({ container, onCardCheck }) => {
+  const handleCardCheck = (cardId: string, checked: boolean) => {
+    onCardCheck?.(cardId, checked);
+  };
+
   return (
     <div className={styles.containerItem}>
       <div className={styles.containerHeader}>
@@ -25,7 +31,12 @@ export const ContainerItem: React.FC<ContainerItemProps> = ({ container }) => {
       
       <div className={styles.cardsList}>
         {container.cards.map((card) => (
-          <Card key={card.id} content={card.content} />
+          <Card 
+            key={card.id} 
+            content={card.content}
+            checked={card.checked}
+            onChange={(checked) => handleCardCheck(card.id, checked)}
+          />
         ))}
       </div>
       

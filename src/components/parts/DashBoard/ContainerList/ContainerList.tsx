@@ -1,8 +1,10 @@
 import React from 'react';
 import styles from "../../../../styles/pagesStyles/DashBoard/MenuscssPartsList/ContainerItem/ContainerItem.module.scss";
 import { ContainerItem } from '../ContainerItem/ContainerItem';
+import { useDispatch } from 'react-redux';
+import { updateCardCheck } from '../../../base/features/slices/cardSlice/cardSlice';
 
-interface ContainerItemType {
+export interface ContainerItemType {
   id: string;
   boardId: string;
   content: string;
@@ -10,6 +12,7 @@ interface ContainerItemType {
     id: string;
     content: string;
     containerId: string;
+    checked: boolean;
   }>;
 }
 
@@ -18,12 +21,19 @@ interface ContainersListProps {
 }
 
 export const ContainersList: React.FC<ContainersListProps> = ({ containers }) => {
+  const dispatch = useDispatch();
+
+  const handleCardCheck = (cardId: string, checked: boolean) => {
+    dispatch(updateCardCheck({ cardId, checked }));
+  };
+
   return (
     <div className={styles.containersList}>
       {containers.map((container) => (
         <ContainerItem
           key={container.id}
           container={container}
+          onCardCheck={handleCardCheck}
         />
       ))}
     </div>

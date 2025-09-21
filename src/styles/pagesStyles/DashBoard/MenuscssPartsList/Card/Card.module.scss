@@ -17,6 +17,73 @@
   &:last-child {
     margin-bottom: 0;
   }
+
+  &.cardCompleted {
+    background: #d4edda;
+    border-color: #c3e6cb;
+    
+    .cardContent {
+      color: #155724;
+      text-decoration: line-through;
+    }
+    
+    &:hover {
+      background: #c3e6cb;
+    }
+  }
+}
+
+.cardContentWrapper {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  margin: 0;
+  flex-shrink: 0;
+}
+
+.checkboxInput {
+  display: none;
+}
+
+.customCheckbox {
+  width: 18px;
+  height: 18px;
+  border: 2px solid #ddd;
+  border-radius: 3px;
+  position: relative;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  
+  &:hover {
+    border-color: #28a745;
+  }
+  
+  .checkboxInput:checked + & {
+    background-color: #28a745;
+    border-color: #28a745;
+    
+    &::after {
+      content: '✓';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+      font-size: 12px;
+      font-weight: bold;
+    }
+  }
+  
+  .checkboxInput:focus + & {
+    border-color: #28a745;
+    box-shadow: 0 0 0 2px rgba(40, 167, 69, 0.25);
+  }
 }
 
 .cardContent {
@@ -24,4 +91,8 @@
   color: #172b4d;
   line-height: 1.4;
   word-break: break-word;
+  transition: all 0.2s ease;
+  flex: 1;
+  cursor: default; // Убираем курсор-указатель с текста
+  padding-top: 1px; // Для вертикального выравнивания с чекбоксом
 }

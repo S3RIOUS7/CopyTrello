@@ -6,20 +6,44 @@ import { AdaptiveTitle } from '../../components/parts/DashBoard/AdaptiveTitle/Ad
 import { useEffect } from 'react';
 import { setBoardBackground } from '../../components/base/features/slices/background/backgroundSlice';
 import { AddButton } from '../../components/parts/DashBoard/AddBoardButton/AbbBoardButton';
-import { ContainersList } from '../../components/parts/DashBoard/ContainerList/ContainerList';
+import { ContainersList, type ContainerItemType } from '../../components/parts/DashBoard/ContainerList/ContainerList';
 
+export interface ContainerCard {
+  id: string;
+  content: string;
+  containerId: string;
+  checked: boolean;
+}
 
 export const DashBoard = () => {
   const { boardId } = useParams<{ boardId: string }>();
   const dispatch = useDispatch();
   
   const boards = useSelector((state: RootState) => state.boards.boards);
- const containers = useSelector((state: RootState) => 
-  boardId ? state.container.containers.filter(container => container.boardId === boardId) : []
-);
-
+  const allContainers = useSelector((state: RootState) => state.container.containers);
+  const allCards = useSelector((state: RootState) => state.cards.cards);
+  
   const currentBoard = boards.find(board => board.id === boardId);
   const { selectedBackground, selectedColor } = useSelector((state: RootState) => state.background);
+
+  // Новая логика получения контейнеров с карточками
+  const containers: ContainerItemType[] = boardId 
+    ? allContainers
+        .filter(container => container.boardId === boardId)
+        .map(container => {
+          // Получаем карточки из редюсера cards по их ID
+          const containerCards = allCards.filter(card => 
+            container.cards.includes(card.id)
+          );
+          
+          return {
+            id: container.id,
+            content: container.content,
+            boardId: container.boardId,
+            cards: containerCards
+          };
+        })
+    : [];
   
   useEffect(() => {
     if (currentBoard) {
