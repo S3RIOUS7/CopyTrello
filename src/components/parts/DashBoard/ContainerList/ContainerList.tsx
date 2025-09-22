@@ -2,7 +2,7 @@ import React from 'react';
 import styles from "../../../../styles/pagesStyles/DashBoard/MenuscssPartsList/ContainerItem/ContainerItem.module.scss";
 import { ContainerItem } from '../ContainerItem/ContainerItem';
 import { useDispatch } from 'react-redux';
-import { updateCardCheck } from '../../../base/features/slices/cardSlice/cardSlice';
+import { updateCardCheck } from '../../../../store/redusers/features/slices/cardSlice/cardSlice';
 
 export interface ContainerItemType {
   id: string;

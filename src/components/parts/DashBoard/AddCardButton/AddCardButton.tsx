@@ -5,7 +5,7 @@ import { Input } from '../../../base/input/Input';
 import Button from '../../../base/button/Button';
 import styles from '../../../../styles/pagesStyles/DashBoard/MenuscssPartsList/AddCardButton/AddCardButton.module.scss';
 import { addCardToContainer } from '../../../../store/redusers/addButtonReducer/addButtonReducer';
-import { addCard } from '../../../base/features/slices/cardSlice/cardSlice';
+import { addCard } from '../../../../store/redusers/features/slices/cardSlice/cardSlice';
 interface AddCardButtonProps {
   containerId: string;
 }

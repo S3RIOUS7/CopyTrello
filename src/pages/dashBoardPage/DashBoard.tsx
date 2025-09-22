@@ -4,7 +4,7 @@ import type { RootState } from '../../store/storage/store';
 import styles from '../../styles/pagesStyles/DashBoard/Dashboard.module.scss';
 import { AdaptiveTitle } from '../../components/parts/DashBoard/AdaptiveTitle/AdaptiveTitle';
 import { useEffect } from 'react';
-import { setBoardBackground } from '../../components/base/features/slices/background/backgroundSlice';
+import { setBoardBackground } from '../../store/redusers/features/slices/background/backgroundSlice';
 import { AddButton } from '../../components/parts/DashBoard/AddBoardButton/AbbBoardButton';
 import { ContainersList, type ContainerItemType } from '../../components/parts/DashBoard/ContainerList/ContainerList';
 

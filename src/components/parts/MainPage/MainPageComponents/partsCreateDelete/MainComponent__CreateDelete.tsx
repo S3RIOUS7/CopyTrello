@@ -8,8 +8,8 @@ import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import type { RootState } from '../../../../../store/storage/store';
 import type { Board } from '../../../../../services/localStorageService';
-import { addBoard, removeBoard } from '../../../../base/features/slices/boardSlice/boardSlice';
-import { clearSelection } from '../../../../base/features/slices/background/backgroundSlice';
+import { addBoard, removeBoard } from '../../../../../store/redusers/features/slices/boardSlice/boardSlice';
+import { clearSelection } from '../../../../../store/redusers/features/slices/background/backgroundSlice';
 
 
 

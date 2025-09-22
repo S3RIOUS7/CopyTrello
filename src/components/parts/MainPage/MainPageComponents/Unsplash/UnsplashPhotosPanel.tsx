@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import type { RootState } from '../../../../../store/storage/store';
 import { clearUnsplashPhotos, fetchUnsplashPhotosRequest } from '../../../../../store/actions/unsplashActions/unsplashActions';
-import { selectBackground } from '../../../../base/features/slices/background/backgroundSlice';
+import { selectBackground } from '../../../../../store/redusers/features/slices/background/backgroundSlice';
 import { CheckIcon } from '../../../../../assets/img/icon/CheckIcon';
 import Button from '../../../../base/button/Button';
 

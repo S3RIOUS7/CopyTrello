@@ -1,12 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
-import backgroundReducer from '../../components/base/features/slices/background/backgroundSlice';
-import boardsReducer from '../../components/base/features/slices/boardSlice/boardSlice'; // Добавляем импорт
+import backgroundReducer from '../../store/redusers/features/slices/background/backgroundSlice';
+import boardsReducer from '../redusers/features/slices/boardSlice/boardSlice'; // Добавляем импорт
 import createSagaMiddleware from 'redux-saga';
 import unsplashReducer from '../redusers/unsplashReducer/unsplashReducer';
 import { unsplashSaga } from '../sagas/unsplashSaga/unsplashSaga';
 import { addButtonReducer } from '../redusers/addButtonReducer/addButtonReducer';
-import cardReducer from '../../components/base/features/slices/cardSlice/cardSlice'
-
+import cardReducer from '../redusers/features/slices/cardSlice/cardSlice'
+import modalReducer from '../../store/redusers/features/slices/modalWindow/modalWindowSlice'
 const sagaMiddleware = createSagaMiddleware();
 
 export const store = configureStore({
@@ -16,6 +16,7 @@ export const store = configureStore({
     unsplash: unsplashReducer,
     container: addButtonReducer,
     cards: cardReducer, // Убедитесь, что это правильный импорт
+     modal: modalReducer,
   },
   middleware: (getDefaultMiddleware) => 
     getDefaultMiddleware({
