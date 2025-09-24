@@ -7,6 +7,9 @@ import { useEffect } from 'react';
 import { setBoardBackground } from '../../store/redusers/features/slices/background/backgroundSlice';
 import { AddButton } from '../../components/parts/DashBoard/AddBoardButton/AbbBoardButton';
 import { ContainersList, type ContainerItemType } from '../../components/parts/DashBoard/ContainerList/ContainerList';
+import { useModal } from '../../utils/hooks/useModal/useModal';
+import ModalWindow from '../modalWindowPage/ModalWindowPage';
+import type { ModalData } from '../../store/types/modalWindowTypes/modalWindowType';
 
 export interface ContainerCard {
   id: string;
@@ -23,6 +26,9 @@ export const DashBoard = () => {
   const allContainers = useSelector((state: RootState) => state.container.containers);
   const allCards = useSelector((state: RootState) => state.cards.cards);
   
+  // Используем хук модального окна
+  const { isOpen, modalData, hideModal } = useModal();
+  
   const currentBoard = boards.find(board => board.id === boardId);
   const { selectedBackground, selectedColor } = useSelector((state: RootState) => state.background);
 
@@ -31,7 +37,6 @@ export const DashBoard = () => {
     ? allContainers
         .filter(container => container.boardId === boardId)
         .map(container => {
-          // Получаем карточки из редюсера cards по их ID
           const containerCards = allCards.filter(card => 
             container.cards.includes(card.id)
           );
@@ -58,6 +63,13 @@ export const DashBoard = () => {
       }));
     }
   }, [boardId, currentBoard, dispatch]);
+
+  // Функция для сохранения изменений карточки
+  const handleSaveCard = (data: ModalData) => {
+    // Здесь добавьте логику сохранения изменений карточки
+    console.log('Сохранение карточки:', data);
+    // dispatch(updateCardContent({ cardId: ..., content: data.className }));
+  };
 
   const backgroundStyle: React.CSSProperties = {
     paddingTop: '60px'
@@ -98,6 +110,18 @@ export const DashBoard = () => {
             className={styles.addButton}
           />
         </div>
+
+        {/* Модальное окно теперь рендерится поверх всего контента */}
+        {isOpen && (
+          <ModalWindow
+            isOpen={isOpen}
+            onClose={hideModal}
+            onSave={handleSaveCard}
+            onCancel={hideModal}
+            initialData={modalData || undefined}
+            title={modalData?.title || 'Редактировать карточку'}
+          />
+        )}
       </div>
     </>
   );

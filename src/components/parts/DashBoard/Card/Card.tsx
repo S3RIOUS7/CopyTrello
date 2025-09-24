@@ -5,15 +5,21 @@ interface CardProps {
   content: string;
   checked: boolean;
   onChange?: (checked: boolean) => void;
+  onEdit?: () => void; // Добавляем пропс для редактирования
 }
 
-export const Card: React.FC<CardProps> = ({ content, checked, onChange }) => {
+export const Card: React.FC<CardProps> = ({ content, checked, onChange, onEdit }) => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     onChange?.(event.target.checked);
   };
 
   const handleLabelClick = (e: React.MouseEvent) => {
     e.stopPropagation();
+  };
+
+  const handleContentClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    onEdit?.(); // Вызываем функцию редактирования при клике на содержимое
   };
 
   return (
@@ -36,7 +42,8 @@ export const Card: React.FC<CardProps> = ({ content, checked, onChange }) => {
         
         <div 
           className={styles.cardContent}
-          onClick={handleLabelClick}
+          onClick={handleContentClick} // Добавляем обработчик клика
+          style={{ cursor: onEdit ? 'pointer' : 'default' }} // Меняем курсор при наличии onEdit
         >
           {checked ? 'Выполнено' : content}
         </div>

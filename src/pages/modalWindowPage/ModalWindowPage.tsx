@@ -5,7 +5,7 @@ import { closeModal, updateModalData } from "../../store/redusers/features/slice
 import { Input } from "../../components/base/input/Input";
 import Button from "../../components/base/button/Button";
 import type { RootState } from "../../store/storage/store";
-
+import styles from '../../styles/pagesStyles/ModalWindow/ModalWindow.module.scss'
 
 
 const ModalWindow: FC<ModalProps> = ({
@@ -73,48 +73,91 @@ const ModalWindow: FC<ModalProps> = ({
     dispatch(updateModalData(newData));
   };
 
+  // Обработчики для новых кнопок
+  const handleAdd = () => {
+    console.log("Добавить clicked");
+    // Добавьте свою логику здесь
+  };
+
+  const handleLabels = () => {
+    console.log("Метки clicked");
+    // Добавьте свою логику здесь
+  };
+
+  const handleDates = () => {
+    console.log("Даты clicked");
+    // Добавьте свою логику здесь
+  };
+
+  const handleChecklist = () => {
+    console.log("Чек-лист clicked");
+    // Добавьте свою логику здесь
+  };
+
   if (!isOpen) return null;
 
   return (
-    <div className="modal-overlay" onClick={handleClose}>
-      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+    <div className={styles.modalOverlay} onClick={handleClose}>
+      <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
         {/* Header */}
-        <div className="modal-header">
-          <h2 className="modal-title">{title}</h2>
+        <div className={styles.modalHeader}>
+          <h2 className={styles.modalTitle}>{title}</h2>
         </div>
 
-        {/* Класс с чекбоксом */}
-        <div className="modal-section">
-          <div className="checkbox-container">
+        {/* Класс с чекбоксом и кнопками */}
+        <div className={styles.modalSection}>
+          <div className={styles.checkboxContainer}>
             <input
               type="checkbox"
               checked={localData.isChecked}
               onChange={(e) => handleInputChange('isChecked', e.target.checked)}
-              className="modal-checkbox"
+              className={styles.modalCheckbox}
             />
-            <label className="checkbox-label">{localData.className}</label>
+            <label className={styles.checkboxLabel}>{localData.className}</label>
           </div>
-          <Input
-            value={localData.className}
-            onChange={(value) => handleInputChange('className', value)}
-            placeholder="Введите название класса"
-            className="modal-input"
-          />
+         
+          {/* Заменяем инпут на 4 кнопки в строке */}
+          <div className={styles.buttonsRow}>
+            <Button
+              buttonStyle="create"
+              onClick={handleAdd}
+              label="Добавить"
+              className={styles.actionButton}
+            />
+            <Button
+              buttonStyle="search"
+              onClick={handleLabels}
+              label="Метки"
+              className={styles.actionButton}
+            />
+            <Button
+              buttonStyle="addCartButton"
+              onClick={handleDates}
+              label="Даты"
+              className={styles.actionButton}
+            />
+            <Button
+              buttonStyle="icon"
+              onClick={handleChecklist}
+              label="Чек-лист"
+              className={styles.actionButton}
+            />
+          </div>
         </div>
 
         {/* Описание */}
-        <div className="modal-section">
-          <h3 className="section-title">Описание</h3>
+        <div className={styles.modalSection}>
+          <h3 className={styles.sectionTitle}>Описание</h3>
           <Input
             value={localData.description}
             onChange={(value) => handleInputChange('description', value)}
             placeholder="Введите описание"
-            className="modal-input description-input"
+            className={`${styles.modalInput} ${styles.descriptionInput}`}
           />
         </div>
 
-        {/* Кнопки */}
-        <div className="modal-actions">
+        {/* Кнопки действий */}
+        <div className={styles.modalActions}>
           <Button
             buttonStyle="create"
             onClick={handleSave}
@@ -145,4 +188,4 @@ const ModalWindow: FC<ModalProps> = ({
   );
 };
 
-export default  ModalWindow;
+export default ModalWindow;
