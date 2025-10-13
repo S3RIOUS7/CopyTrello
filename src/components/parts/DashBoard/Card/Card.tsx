@@ -5,7 +5,7 @@ interface CardProps {
   content: string;
   checked: boolean;
   onChange?: (checked: boolean) => void;
-  onEdit?: () => void; // Добавляем пропс для редактирования
+  onEdit?: () => void;
 }
 
 export const Card: React.FC<CardProps> = ({ content, checked, onChange, onEdit }) => {
@@ -19,7 +19,7 @@ export const Card: React.FC<CardProps> = ({ content, checked, onChange, onEdit }
 
   const handleContentClick = (e: React.MouseEvent) => {
     e.stopPropagation();
-    onEdit?.(); // Вызываем функцию редактирования при клике на содержимое
+    onEdit?.();
   };
 
   return (
@@ -42,8 +42,8 @@ export const Card: React.FC<CardProps> = ({ content, checked, onChange, onEdit }
         
         <div 
           className={styles.cardContent}
-          onClick={handleContentClick} // Добавляем обработчик клика
-          style={{ cursor: onEdit ? 'pointer' : 'default' }} // Меняем курсор при наличии onEdit
+          onClick={handleContentClick}
+          style={{ cursor: onEdit ? 'pointer' : 'default' }}
         >
           {checked ? 'Выполнено' : content}
         </div>

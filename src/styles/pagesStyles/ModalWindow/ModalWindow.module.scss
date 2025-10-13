@@ -58,12 +58,12 @@
   color: #555;
 }
 
-.sectionTitle {
-  font-size: 1.1rem;
-  font-weight: 500;
-  margin-bottom: 10px;
-  color: #333;
-}
+// .sectionTitle {
+//   font-size: 1.1rem;
+//   font-weight: 500;
+//   margin-bottom: 10px;
+//   color: #333;
+// }
 
 .modalInput {
   width: 100%;
@@ -117,6 +117,195 @@
     width: 95%;
     padding: 16px;
     margin: 20px;
+  }
+  
+  .modalActions {
+    flex-direction: column;
+  }
+}.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.modalContent {
+  background: white;
+  border-radius: 8px;
+  padding: 24px;
+  width: 90%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  animation: slideIn 0.3s ease-out;
+}
+
+.modalHeader {
+  margin-bottom: 20px;
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 15px;
+}
+
+.modalTitle {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.modalSection {
+  margin-bottom: 20px;
+}
+
+.checkboxContainer {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.modalCheckbox {
+  margin-right: 10px;
+  width: 18px;
+  height: 18px;
+}
+
+.checkboxLabel {
+  font-weight: 500;
+  color: #555;
+}
+
+.sectionTitle {
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin-bottom: 10px;
+  color: #333;
+  display: flex;
+  gap: 5px;
+}
+
+.modalInput {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  
+  &:focus {
+    outline: none;
+    border-color: #007bff;
+  }
+}
+
+.descriptionInput {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.buttonsRow {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.actionButton {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+    padding: var(--ds-space-050, 4px) var(--ds-space-100, 8px);
+  font-size: 12px;
+  border: 1px solid var(--ds-border, #091e4224);
+      background-color: var(--ds-background-neutral-subtle, #00000000);
+      color: var(--ds-text-subtle, #626f86);
+  // Стили для иконок внутри кнопок
+  svg {
+    flex-shrink: 0;
+  }
+  
+  span {
+    white-space: nowrap;
+  }
+}
+
+.modalActions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 24px;
+  flex-wrap: wrap;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-50px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.modalTextArea {
+  width: 100%;
+  
+  &.descriptionTextArea {
+    min-height: 100px;
+    
+    &:focus {
+      border-color: #0079bf;
+      box-shadow: 0 0 0 2px rgba(0, 121, 191, 0.2);
+    }
+  }
+}
+
+// Стили для контейнера TextArea внутри модального окна
+.modalSection {
+  .text-area-container {
+    margin-top: 8px;
+    
+    .textAreaField {
+      max-width: 100%;
+      box-sizing: border-box;
+    }
+  }
+}
+
+// Адаптивность для мобильных устройств
+@media (max-width: 768px) {
+  .modalContent {
+    width: 95%;
+    padding: 16px;
+    margin: 20px;
+  }
+  
+  .buttonsRow {
+    gap: 6px;
+  }
+  
+  .actionButton {
+    padding: 6px 10px;
+    font-size: 12px;
+    
+    span {
+      display: none; // Скрываем текст на мобильных, оставляем только иконки
+    }
   }
   
   .modalActions {

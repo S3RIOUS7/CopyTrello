@@ -2,7 +2,7 @@ import { useEffect, useState, type FC } from "react";
 import type { ModalData, ModalProps } from "../../store/types/modalWindowTypes/modalWindowType";
 import { useDispatch, useSelector } from "react-redux";
 import { closeModal, updateModalData } from "../../store/redusers/features/slices/modalWindow/modalWindowSlice";
-import { Input } from "../../components/base/input/Input";
+
 import Button from "../../components/base/button/Button";
 import type { RootState } from "../../store/storage/store";
 import styles from '../../styles/pagesStyles/ModalWindow/ModalWindow.module.scss'
@@ -10,8 +10,9 @@ import PlusIconSmall from "../../assets/img/icon/PlusIconSmall";
 import MarkerIcon from "../../assets/img/icon/MarkerIcon";
 import ClockIcon from "../../assets/img/icon/ClockIcon";
 import CheckBoxIcon from "../../assets/img/icon/CheckBoxIcon";
-
-
+import { updateCardCheck } from "../../store/redusers/features/slices/cardSlice/cardSlice";
+import DescriptionIcon from "../../assets/img/icon/DescriptionIcon";
+import { TextArea } from "../../components/base/textArea/TextArea";
 
 const ModalWindow: FC<ModalProps> = ({
   isOpen,
@@ -38,7 +39,6 @@ const ModalWindow: FC<ModalProps> = ({
       setLocalData(prev => ({
         ...prev,
         ...initialData,
-        description: '', // Сбрасываем описание при открытии
       }));
     }
   }, [initialData]);
@@ -77,6 +77,14 @@ const ModalWindow: FC<ModalProps> = ({
     const newData = { ...localData, [field]: value };
     setLocalData(newData);
     dispatch(updateModalData(newData));
+
+    // Мгновенная синхронизация чекбокса
+    if (field === 'isChecked' && initialData?.cardId) {
+      dispatch(updateCardCheck({ 
+        cardId: initialData.cardId, 
+        checked: value as boolean 
+      }));
+    }
   };
 
   // Обработчики для новых кнопок
@@ -127,44 +135,53 @@ const ModalWindow: FC<ModalProps> = ({
             <Button
               buttonStyle="create"
               onClick={handleAdd}
-              label="Добавить"
               className={styles.actionButton}
-              icon={<PlusIconSmall size={14}/>}
-            />
+            >
+              <PlusIconSmall size={14} />
+              <span>Добавить</span>
+            </Button>
             <Button
               buttonStyle="create"
               onClick={handleLabels}
-              label="Метки"
               className={styles.actionButton}
-               icon={<MarkerIcon size={14}/>}
-            />
+            >
+              <MarkerIcon size={14} />
+              <span>Метки</span>
+            </Button>
             <Button
-               buttonStyle="create"
+              buttonStyle="create"
               onClick={handleDates}
-              label="Даты"
               className={styles.actionButton}
-              icon={<ClockIcon size={14}/>}
-            />
+            >
+              <ClockIcon size={14} />
+              <span>Даты</span>
+            </Button>
             <Button
-               buttonStyle="create"
+              buttonStyle="create"
               onClick={handleChecklist}
-              label="Чек-лист"
               className={styles.actionButton}
-                icon={<CheckBoxIcon size={14}/>}
-            />
+            >
+              <CheckBoxIcon size={14} />
+              <span>Чек-лист</span>
+            </Button>
           </div>
         </div>
 
         {/* Описание */}
         <div className={styles.modalSection}>
-          <h3 className={styles.sectionTitle}>Описание</h3>
-          <Input
-            value={localData.description}
-            onChange={(value) => handleInputChange('description', value)}
-            placeholder="Введите описание"
-            className={`${styles.modalInput} ${styles.descriptionInput}`}
-          />
-        </div>
+  <h3 className={styles.sectionTitle}>
+    <DescriptionIcon size={20} color="#42526E" className={styles.icon} />
+    Описание
+  </h3>
+  <TextArea
+    value={localData.description}
+    onChange={(value) => handleInputChange('description', value)}
+    placeholder="Введите описание"
+    className={`${styles.modalTextArea} ${styles.descriptionTextArea}`}
+    rows={4}
+    autoResize={true} // Включить авто-подстройку высоты
+  />
+</div>
 
         {/* Кнопки действий */}
         <div className={styles.modalActions}>

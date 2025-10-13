@@ -16,7 +16,7 @@ interface ContainerItemProps {
     }>;
   };
   onCardCheck?: (cardId: string, checked: boolean) => void;
-  onCardEdit?: (cardId: string) => void; // Добавляем пропс для редактирования карточки
+  onCardEdit?: (cardId: string) => void;
 }
 
 export const ContainerItem: React.FC<ContainerItemProps> = ({ 
@@ -45,7 +45,7 @@ export const ContainerItem: React.FC<ContainerItemProps> = ({
             content={card.content}
             checked={card.checked}
             onChange={(checked) => handleCardCheck(card.id, checked)}
-            onEdit={() => handleCardEdit(card.id)} // Передаем функцию редактирования
+            onEdit={() => handleCardEdit(card.id)}
           />
         ))}
       </div>

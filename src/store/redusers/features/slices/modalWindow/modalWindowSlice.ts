@@ -22,6 +22,7 @@ const modalSlice = createSlice({
         className: action.payload.className || '',
         description: action.payload.description || '',
         isChecked: action.payload.isChecked || false,
+        cardId: action.payload.cardId, // Сохраняем cardId
         ...action.payload,
       };
     },

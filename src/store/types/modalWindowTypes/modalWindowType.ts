@@ -3,8 +3,8 @@ export interface ModalData {
   className: string;
   description: string;
   isChecked: boolean;
+  cardId?: string;
 }
-
 export interface ModalProps {
   isOpen: boolean;
   onClose: () => void;

@@ -24,25 +24,24 @@ interface ContainersListProps {
 
 export const ContainersList: React.FC<ContainersListProps> = ({ containers }) => {
   const dispatch = useDispatch();
-  const { showModal } = useModal(); // Используем хук модального окна
+  const { showModal } = useModal();
 
   const handleCardCheck = (cardId: string, checked: boolean) => {
     dispatch(updateCardCheck({ cardId, checked }));
   };
 
   const handleCardEdit = (cardId: string) => {
-    // Находим карточку по ID
     const card = containers
       .flatMap(container => container.cards)
       .find(card => card.id === cardId);
 
     if (card) {
-      // Открываем модальное окно с данными карточки
       showModal({
         title: 'Редактировать карточку',
         className: card.content,
-        description:'', // Или другое поле для описания
-        isChecked: card.checked
+        description: '', // Или другое поле для описания
+        isChecked: card.checked,
+        cardId: card.id // Добавляем cardId для синхронизации
       });
     }
   };
@@ -54,7 +53,7 @@ export const ContainersList: React.FC<ContainersListProps> = ({ containers }) =>
           key={container.id}
           container={container}
           onCardCheck={handleCardCheck}
-          onCardEdit={handleCardEdit} // Передаем функцию редактирования
+          onCardEdit={handleCardEdit}
         />
       ))}
     </div>
