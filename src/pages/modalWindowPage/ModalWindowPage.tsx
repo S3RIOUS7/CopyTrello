@@ -6,6 +6,11 @@ import { Input } from "../../components/base/input/Input";
 import Button from "../../components/base/button/Button";
 import type { RootState } from "../../store/storage/store";
 import styles from '../../styles/pagesStyles/ModalWindow/ModalWindow.module.scss'
+import PlusIconSmall from "../../assets/img/icon/PlusIconSmall";
+import MarkerIcon from "../../assets/img/icon/MarkerIcon";
+import ClockIcon from "../../assets/img/icon/ClockIcon";
+import CheckBoxIcon from "../../assets/img/icon/CheckBoxIcon";
+
 
 
 const ModalWindow: FC<ModalProps> = ({
@@ -33,6 +38,7 @@ const ModalWindow: FC<ModalProps> = ({
       setLocalData(prev => ({
         ...prev,
         ...initialData,
+        description: '', // Сбрасываем описание при открытии
       }));
     }
   }, [initialData]);
@@ -123,24 +129,28 @@ const ModalWindow: FC<ModalProps> = ({
               onClick={handleAdd}
               label="Добавить"
               className={styles.actionButton}
+              icon={<PlusIconSmall size={14}/>}
             />
             <Button
-              buttonStyle="search"
+              buttonStyle="create"
               onClick={handleLabels}
               label="Метки"
               className={styles.actionButton}
+               icon={<MarkerIcon size={14}/>}
             />
             <Button
-              buttonStyle="addCartButton"
+               buttonStyle="create"
               onClick={handleDates}
               label="Даты"
               className={styles.actionButton}
+              icon={<ClockIcon size={14}/>}
             />
             <Button
-              buttonStyle="icon"
+               buttonStyle="create"
               onClick={handleChecklist}
               label="Чек-лист"
               className={styles.actionButton}
+                icon={<CheckBoxIcon size={14}/>}
             />
           </div>
         </div>

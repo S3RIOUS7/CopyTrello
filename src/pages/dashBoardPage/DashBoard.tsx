@@ -5,7 +5,7 @@ import styles from '../../styles/pagesStyles/DashBoard/Dashboard.module.scss';
 import { AdaptiveTitle } from '../../components/parts/DashBoard/AdaptiveTitle/AdaptiveTitle';
 import { useEffect } from 'react';
 import { setBoardBackground } from '../../store/redusers/features/slices/background/backgroundSlice';
-import { AddButton } from '../../components/parts/DashBoard/AddBoardButton/AbbBoardButton';
+import { AddButton } from '../../components/parts/DashBoard/AddBoardButton/AddBoardButton';
 import { ContainersList, type ContainerItemType } from '../../components/parts/DashBoard/ContainerList/ContainerList';
 import { useModal } from '../../utils/hooks/useModal/useModal';
 import ModalWindow from '../modalWindowPage/ModalWindowPage';

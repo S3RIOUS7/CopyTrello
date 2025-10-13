@@ -41,7 +41,7 @@ export const ContainersList: React.FC<ContainersListProps> = ({ containers }) =>
       showModal({
         title: 'Редактировать карточку',
         className: card.content,
-        description: card.content, // Или другое поле для описания
+        description:'', // Или другое поле для описания
         isChecked: card.checked
       });
     }
