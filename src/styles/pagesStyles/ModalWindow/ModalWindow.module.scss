@@ -17,131 +17,7 @@
   border-radius: 8px;
   padding: 24px;
   width: 90%;
-  max-width: 500px;
-  max-height: 90vh;
-  overflow-y: auto;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-  animation: slideIn 0.3s ease-out;
-}
-
-.modalHeader {
-  margin-bottom: 20px;
-  border-bottom: 1px solid #e0e0e0;
-  padding-bottom: 15px;
-}
-
-.modalTitle {
-  margin: 0;
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: #333;
-}
-
-.modalSection {
-  margin-bottom: 20px;
-}
-
-.checkboxContainer {
-  display: flex;
-  align-items: center;
-  margin-bottom: 10px;
-}
-
-.modalCheckbox {
-  margin-right: 10px;
-  width: 18px;
-  height: 18px;
-}
-
-.checkboxLabel {
-  font-weight: 500;
-  color: #555;
-}
-
-// .sectionTitle {
-//   font-size: 1.1rem;
-//   font-weight: 500;
-//   margin-bottom: 10px;
-//   color: #333;
-// }
-
-.modalInput {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 14px;
-  
-  &:focus {
-    outline: none;
-    border-color: #007bff;
-  }
-}
-
-.descriptionInput {
-  min-height: 80px;
-  resize: vertical;
-}
-
-.modalActions {
-  display: flex;
-  gap: 10px;
-  justify-content: flex-end;
-  margin-top: 24px;
-  flex-wrap: wrap;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes slideIn {
-  from {
-    opacity: 0;
-    transform: translateY(-50px) scale(0.9);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-// Адаптивность для мобильных устройств
-@media (max-width: 768px) {
-  .modalContent {
-    width: 95%;
-    padding: 16px;
-    margin: 20px;
-  }
-  
-  .modalActions {
-    flex-direction: column;
-  }
-}.modalOverlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-  animation: fadeIn 0.3s ease-out;
-}
-
-.modalContent {
-  background: white;
-  border-radius: 8px;
-  padding: 24px;
-  width: 90%;
-  max-width: 500px;
+  max-width: 600px;
   max-height: 90vh;
   overflow-y: auto;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
@@ -191,27 +67,10 @@
   gap: 5px;
 }
 
-.modalInput {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 14px;
-  
-  &:focus {
-    outline: none;
-    border-color: #007bff;
-  }
-}
-
-.descriptionInput {
-  min-height: 80px;
-  resize: vertical;
-}
-
 .buttonsRow {
   display: flex;
   gap: 8px;
+  margin-top: 12px;
   flex-wrap: wrap;
 }
 
@@ -219,18 +78,31 @@
   display: flex;
   align-items: center;
   gap: 5px;
-    padding: var(--ds-space-050, 4px) var(--ds-space-100, 8px);
+  padding: var(--ds-space-050, 4px) var(--ds-space-100, 8px);
   font-size: 12px;
   border: 1px solid var(--ds-border, #091e4224);
-      background-color: var(--ds-background-neutral-subtle, #00000000);
-      color: var(--ds-text-subtle, #626f86);
-  // Стили для иконок внутри кнопок
+  background-color: var(--ds-background-neutral-subtle, #00000000);
+  color: var(--ds-text-subtle, #626f86);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  
   svg {
     flex-shrink: 0;
   }
   
   span {
     white-space: nowrap;
+  }
+
+  &:hover {
+    background-color: var(--ds-background-neutral-subtle-hovered, #091e420f);
+  }
+  
+  &.active {
+    background-color: #e3f2fd;
+    border-color: #2196f3;
+    color: #1976d2;
   }
 }
 
@@ -275,7 +147,6 @@
   }
 }
 
-// Стили для контейнера TextArea внутри модального окна
 .modalSection {
   .text-area-container {
     margin-top: 8px;
@@ -287,28 +158,268 @@
   }
 }
 
+
+
 // Адаптивность для мобильных устройств
 @media (max-width: 768px) {
   .modalContent {
     width: 95%;
     padding: 16px;
     margin: 20px;
+    max-width: 95%;
   }
   
   .buttonsRow {
     gap: 6px;
+    flex-direction: column;
   }
   
   .actionButton {
-    padding: 6px 10px;
+    padding: 8px 12px;
     font-size: 12px;
+    justify-content: center;
     
     span {
-      display: none; // Скрываем текст на мобильных, оставляем только иконки
+      display: inline;
     }
   }
   
   .modalActions {
     flex-direction: column;
   }
+  
+  .datePickerContainer {
+    padding: 12px;
+  }
 }
+
+@media (max-width: 480px) {
+  .modalContent {
+    padding: 12px;
+    margin: 10px;
+  }
+  
+  .buttonsRow {
+    gap: 4px;
+  }
+  
+  .actionButton {
+    padding: 6px 8px;
+    font-size: 11px;
+    
+    span {
+      font-size: 11px;
+    }
+  }
+  
+  .datePickerContainer {
+    padding: 8px;
+  }
+}
+
+
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.modalContent {
+  background: white;
+  border-radius: 8px;
+  padding: 24px;
+  width: 90%;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  animation: slideIn 0.3s ease-out;
+}
+
+.modalHeader {
+  margin-bottom: 20px;
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 15px;
+}
+
+.modalTitle {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.modalSection {
+  margin-bottom: 20px;
+}
+
+.checkboxContainer {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.modalCheckbox {
+  margin-right: 10px;
+  width: 18px;
+  height: 18px;
+}
+
+.checkboxLabel {
+  font-weight: 500;
+  color: #555;
+}
+
+.sectionTitle {
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin-bottom: 10px;
+  color: #333;
+  display: flex;
+  gap: 5px;
+}
+
+.buttonsRow {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+
+.actionButton {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: var(--ds-space-050, 4px) var(--ds-space-100, 8px);
+  font-size: 12px;
+  border: 1px solid var(--ds-border, #091e4224);
+  background-color: var(--ds-background-neutral-subtle, #00000000);
+  color: var(--ds-text-subtle, #626f86);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  
+  svg {
+    flex-shrink: 0;
+  }
+  
+  span {
+    white-space: nowrap;
+  }
+
+  &:hover {
+    background-color: var(--ds-background-neutral-subtle-hovered, #091e420f);
+  }
+  
+  &.active {
+    background-color: #e3f2fd;
+    border-color: #2196f3;
+    color: #1976d2;
+  }
+}
+
+.modalActions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 24px;
+  flex-wrap: wrap;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-50px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.modalTextArea {
+  width: 100%;
+  
+  &.descriptionTextArea {
+    min-height: 100px;
+    
+    &:focus {
+      border-color: #0079bf;
+      box-shadow: 0 0 0 2px rgba(0, 121, 191, 0.2);
+    }
+  }
+}
+
+.modalSection {
+  .text-area-container {
+    margin-top: 8px;
+    
+    .textAreaField {
+      max-width: 100%;
+      box-sizing: border-box;
+    }
+  }
+}
+
+// Стили для DatePicker контейнера
+.datePickerContainer {
+  margin-top: 16px;
+  padding: 16px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background-color: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.datePickerHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  font-weight: 500;
+  color: #42526E;
+}
+
+.dateRangeText {
+  font-size: 14px;
+}
+
+.datePicker {
+  width: 100%;
+}
+
+.datePickerActions {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+  justify-content: flex-end;
+}
+
+.clearButton {
+  background-color: #f5f5f5;
+  color: #666;
+  border: 1px solid #ddd;
+  
+  &:hover {
+    background-color: #eeeeee;
+  }
+}
+

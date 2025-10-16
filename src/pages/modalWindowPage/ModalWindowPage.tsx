@@ -13,6 +13,7 @@ import CheckBoxIcon from "../../assets/img/icon/CheckBoxIcon";
 import { updateCardCheck } from "../../store/redusers/features/slices/cardSlice/cardSlice";
 import DescriptionIcon from "../../assets/img/icon/DescriptionIcon";
 import { TextArea } from "../../components/base/textArea/TextArea";
+import DatePicker from "react-datepicker";
 
 const ModalWindow: FC<ModalProps> = ({
   isOpen,
@@ -32,13 +33,19 @@ const ModalWindow: FC<ModalProps> = ({
     className: '',
     description: '',
     isChecked: false,
+    startDate: null,
+    endDate: null,
   });
+
+  const [showDatePicker, setShowDatePicker] = useState(false);
 
   useEffect(() => {
     if (initialData) {
       setLocalData(prev => ({
         ...prev,
         ...initialData,
+        startDate: initialData.startDate || null,
+        endDate: initialData.endDate || null,
       }));
     }
   }, [initialData]);
@@ -73,12 +80,11 @@ const ModalWindow: FC<ModalProps> = ({
     onEdit?.();
   };
 
-  const handleInputChange = (field: keyof ModalData, value: string | boolean) => {
+  const handleInputChange = (field: keyof ModalData, value: string | boolean | Date | null) => {
     const newData = { ...localData, [field]: value };
     setLocalData(newData);
     dispatch(updateModalData(newData));
 
-    // Мгновенная синхронизация чекбокса
     if (field === 'isChecked' && initialData?.cardId) {
       dispatch(updateCardCheck({ 
         cardId: initialData.cardId, 
@@ -87,38 +93,56 @@ const ModalWindow: FC<ModalProps> = ({
     }
   };
 
-  // Обработчики для новых кнопок
   const handleAdd = () => {
     console.log("Добавить clicked");
-    // Добавьте свою логику здесь
   };
 
   const handleLabels = () => {
     console.log("Метки clicked");
-    // Добавьте свою логику здесь
   };
 
   const handleDates = () => {
     console.log("Даты clicked");
-    // Добавьте свою логику здесь
+    setShowDatePicker(prev => !prev);
   };
 
   const handleChecklist = () => {
     console.log("Чек-лист clicked");
-    // Добавьте свою логику здесь
   };
+
+  const handleDateChange = (dates: [Date | null, Date | null]) => {
+    const [start, end] = dates;
+    handleInputChange('startDate', start);
+    handleInputChange('endDate', end);
+  };
+
+  const formatDateRange = () => {
+    if (!localData.startDate) return "Выберите даты";
+    
+    const start = localData.startDate.toLocaleDateString('ru-RU');
+    
+    if (!localData.endDate) {
+      return start;
+    }
+    
+    const end = localData.endDate.toLocaleDateString('ru-RU');
+    
+    return localData.startDate.getTime() !== localData.endDate.getTime()
+      ? `${start} - ${end}`
+      : start;
+  };
+
+  // Функция handleClearDates больше не нужна и может быть удалена
 
   if (!isOpen) return null;
 
   return (
     <div className={styles.modalOverlay} onClick={handleClose}>
       <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
-        {/* Header */}
         <div className={styles.modalHeader}>
           <h2 className={styles.modalTitle}>{title}</h2>
         </div>
 
-        {/* Класс с чекбоксом и кнопками */}
         <div className={styles.modalSection}>
           <div className={styles.checkboxContainer}>
             <input
@@ -130,7 +154,6 @@ const ModalWindow: FC<ModalProps> = ({
             <label className={styles.checkboxLabel}>{localData.className}</label>
           </div>
          
-          {/* Заменяем инпут на 4 кнопки в строке */}
           <div className={styles.buttonsRow}>
             <Button
               buttonStyle="create"
@@ -151,7 +174,7 @@ const ModalWindow: FC<ModalProps> = ({
             <Button
               buttonStyle="create"
               onClick={handleDates}
-              className={styles.actionButton}
+              className={`${styles.actionButton} ${showDatePicker ? styles.active : ''}`}
             >
               <ClockIcon size={14} />
               <span>Даты</span>
@@ -165,25 +188,56 @@ const ModalWindow: FC<ModalProps> = ({
               <span>Чек-лист</span>
             </Button>
           </div>
+
+          {showDatePicker && (
+            <div className={styles.datePickerContainer}>
+              <div className={styles.datePickerHeader}>
+                <span className={styles.dateRangeText}>
+                  {formatDateRange()}
+                </span>
+              </div>
+              <DatePicker
+               selected={localData.startDate}
+                onChange={handleDateChange}
+                startDate={localData.startDate}
+                endDate={localData.endDate}
+                selectsRange
+                inline
+                monthsShown={1}
+                calendarStartDay={1}
+                locale="ru"
+                className={styles.datePicker}
+             
+                minDate={new Date()}
+
+              />
+              <div className={styles.datePickerActions}>
+                {/* Кнопка "Очистить" удалена отсюда */}
+                <Button
+                  buttonStyle="search"
+                  onClick={() => setShowDatePicker(false)}
+                  label="Готово"
+                />
+              </div>
+            </div>
+          )}
         </div>
 
-        {/* Описание */}
         <div className={styles.modalSection}>
-  <h3 className={styles.sectionTitle}>
-    <DescriptionIcon size={20} color="#42526E" className={styles.icon} />
-    Описание
-  </h3>
-  <TextArea
-    value={localData.description}
-    onChange={(value) => handleInputChange('description', value)}
-    placeholder="Введите описание"
-    className={`${styles.modalTextArea} ${styles.descriptionTextArea}`}
-    rows={4}
-    autoResize={true} // Включить авто-подстройку высоты
-  />
-</div>
+          <h3 className={styles.sectionTitle}>
+            <DescriptionIcon size={20} color="#42526E" className={styles.icon} />
+            Описание
+          </h3>
+          <TextArea
+            value={localData.description}
+            onChange={(value) => handleInputChange('description', value)}
+            placeholder="Введите описание"
+            className={`${styles.modalTextArea} ${styles.descriptionTextArea}`}
+            rows={4}
+            autoResize={true}
+          />
+        </div>
 
-        {/* Кнопки действий */}
         <div className={styles.modalActions}>
           <Button
             buttonStyle="create"

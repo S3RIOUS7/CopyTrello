@@ -4,7 +4,10 @@ export interface ModalData {
   description: string;
   isChecked: boolean;
   cardId?: string;
+  startDate?: Date | null; // Разрешаем null
+  endDate?: Date | null;   // Разрешаем null
 }
+
 export interface ModalProps {
   isOpen: boolean;
   onClose: () => void;

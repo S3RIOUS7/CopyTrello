@@ -6,6 +6,7 @@ import Header from './components/parts/Header/Header';
 import './index.css'
 import MainPage from './pages/mainPage/MainPage';
 import { DashBoard } from './pages/dashBoardPage/DashBoard';
+import './styles/baseComponentsStyles/datapicer.scss'
 
 function App() {
   return (
