@@ -20,8 +20,6 @@ const ModalWindow: FC<ModalProps> = ({
   onClose,
   onSave,
   onCancel,
-  onDelete,
-  onEdit,
   initialData,
   title = 'Модальное окно',
 }) => {
@@ -36,23 +34,32 @@ const ModalWindow: FC<ModalProps> = ({
     startDate: null,
     endDate: null,
   });
-
+  
   const [showDatePicker, setShowDatePicker] = useState(false);
 
   useEffect(() => {
     if (initialData) {
-      setLocalData(prev => ({
-        ...prev,
-        ...initialData,
-        startDate: initialData.startDate || null,
-        endDate: initialData.endDate || null,
-      }));
+      const newData = {
+        title: initialData.title || '',
+        className: initialData.className || '',
+        description: initialData.description || '',
+        isChecked: initialData.isChecked || false,
+        startDate: initialData.startDate instanceof Date ? initialData.startDate : null,
+        endDate: initialData.endDate instanceof Date ? initialData.endDate : null,
+        cardId: initialData.cardId,
+      };
+      setLocalData(newData);
     }
   }, [initialData]);
 
   useEffect(() => {
     if (modalData) {
-      setLocalData(modalData);
+      setLocalData(prev => ({
+        ...prev,
+        ...modalData,
+        startDate: modalData.startDate instanceof Date ? modalData.startDate : null,
+        endDate: modalData.endDate instanceof Date ? modalData.endDate : null,
+      }));
     }
   }, [modalData]);
 
@@ -71,17 +78,19 @@ const ModalWindow: FC<ModalProps> = ({
     handleClose();
   };
 
-  const handleDelete = () => {
-    onDelete?.();
-    handleClose();
-  };
-
-  const handleEdit = () => {
-    onEdit?.();
-  };
-
   const handleInputChange = (field: keyof ModalData, value: string | boolean | Date | null) => {
-    const newData = { ...localData, [field]: value };
+    let processedValue = value;
+    
+    // Если это дата, убедимся что это объект Date или null
+    if (field === 'startDate' || field === 'endDate') {
+      processedValue = value instanceof Date ? value : null;
+    }
+    
+    const newData = { 
+      ...localData, 
+      [field]: processedValue 
+    };
+    
     setLocalData(newData);
     dispatch(updateModalData(newData));
 
@@ -110,29 +119,33 @@ const ModalWindow: FC<ModalProps> = ({
     console.log("Чек-лист clicked");
   };
 
-  const handleDateChange = (dates: [Date | null, Date | null]) => {
-    const [start, end] = dates;
-    handleInputChange('startDate', start);
-    handleInputChange('endDate', end);
+  // Выбор одной даты вместо промежутка
+  const handleDateChange = (date: Date | null) => {
+    console.log('Date selected:', date);
+    
+    const newData = {
+      ...localData,
+      startDate: date,
+      endDate: null // Очищаем конечную дату при выборе одной даты
+    };
+    
+    setLocalData(newData);
+    dispatch(updateModalData(newData));
+    
+    // Автоматически закрываем календарь после выбора даты
+    setShowDatePicker(false);
   };
 
-  const formatDateRange = () => {
-    if (!localData.startDate) return "Выберите даты";
-    
-    const start = localData.startDate.toLocaleDateString('ru-RU');
-    
-    if (!localData.endDate) {
-      return start;
-    }
-    
-    const end = localData.endDate.toLocaleDateString('ru-RU');
-    
-    return localData.startDate.getTime() !== localData.endDate.getTime()
-      ? `${start} - ${end}`
-      : start;
+  const formatDateForDisplay = (date: Date | null | undefined): string => {
+    if (!date) return '';
+    return date.toLocaleDateString('ru-RU', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric'
+    });
   };
 
-  // Функция handleClearDates больше не нужна и может быть удалена
+  const hasDate = localData.startDate;
 
   if (!isOpen) return null;
 
@@ -189,43 +202,36 @@ const ModalWindow: FC<ModalProps> = ({
             </Button>
           </div>
 
+          {/* Блок отображения выбранной даты - только сама дата */}
+          {hasDate && (
+            <div className={styles.selectedDateContainer}>
+              <span className={styles.selectedDate}>
+                {formatDateForDisplay(localData.startDate)}
+              </span>
+            </div>
+          )}
+
           {showDatePicker && (
             <div className={styles.datePickerContainer}>
-              <div className={styles.datePickerHeader}>
-                <span className={styles.dateRangeText}>
-                  {formatDateRange()}
-                </span>
-              </div>
               <DatePicker
-               selected={localData.startDate}
+                selected={localData.startDate}
                 onChange={handleDateChange}
-                startDate={localData.startDate}
-                endDate={localData.endDate}
-                selectsRange
                 inline
                 monthsShown={1}
                 calendarStartDay={1}
                 locale="ru"
                 className={styles.datePicker}
-             
                 minDate={new Date()}
-
+                
+                shouldCloseOnSelect={true} // Закрываем календарь после выбора
               />
-              <div className={styles.datePickerActions}>
-                {/* Кнопка "Очистить" удалена отсюда */}
-                <Button
-                  buttonStyle="search"
-                  onClick={() => setShowDatePicker(false)}
-                  label="Готово"
-                />
-              </div>
             </div>
           )}
         </div>
 
         <div className={styles.modalSection}>
           <h3 className={styles.sectionTitle}>
-            <DescriptionIcon size={20} color="#42526E" className={styles.icon} />
+            <DescriptionIcon size={18} color="#42526E" className={styles.icon} />
             Описание
           </h3>
           <TextArea
@@ -249,20 +255,6 @@ const ModalWindow: FC<ModalProps> = ({
             onClick={handleCancel}
             label="Отмена"
           />
-          {onDelete && (
-            <Button
-              buttonStyle="addCartButton"
-              onClick={handleDelete}
-              label="Удалить"
-            />
-          )}
-          {onEdit && (
-            <Button
-              buttonStyle="icon"
-              onClick={handleEdit}
-              label="Редактировать"
-            />
-          )}
         </div>
       </div>
     </div>

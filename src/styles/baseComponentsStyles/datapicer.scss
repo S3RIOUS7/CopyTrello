@@ -1,13 +1,16 @@
+// Основные стили для React DatePicker
 .react-datepicker {
   border: 1px solid #e0e0e0 !important;
-  border-radius: 8px !important;
+  border-radius: 6px !important;
   font-family: inherit !important;
   background: white !important;
-
-  max-width: 400px !important; /* или нужная вам ширина */
-  min-width: 300px !important;
+  max-width: 280px !important;
+  min-width: 260px !important;
+  font-size: 12px !important;
+  margin: 0 auto !important;
 }
 
+// Скрываем aria-live сообщения для доступности
 .react-datepicker__aria-live {
   display: none !important;
   visibility: hidden !important;
@@ -18,64 +21,111 @@
   pointer-events: none !important;
 }
 
+// Контейнер месяца
 .react-datepicker__month-container {
   width: 100% !important;
   float: none !important;
 }
 
+// Обертка месяцев
 .react-datepicker__month-wrapper {
   display: flex !important;
   justify-content: center !important;
-  gap: 30px !important;
+  gap: 20px !important;
 }
 
+// Текущий месяц
 .react-datepicker__current-month {
-  font-size: 16px !important;
+  font-size: 14px !important;
   font-weight: 600 !important;
   color: #333 !important;
-  margin-bottom: 10px !important;
+  margin-bottom: 8px !important;
   text-align: center !important;
-  margin:  0 !important;
+  margin: 0 !important;
   padding: 0;
 }
 
+// Строка с названиями дней недели
 .react-datepicker__day-names {
   display: flex !important;
   justify-content: space-around !important;
   background-color: #f8f9fa !important;
   border-bottom: 1px solid #e0e0e0 !important;
-  margin-bottom: 5px !important;
+  margin-bottom: 4px !important;
 }
 
+// Стили для дней недели - показываем только сокращения
 .react-datepicker__day-name {
-  width: 36px !important;
-  height: 36px !important;
+  width: 28px !important;
+  height: 28px !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
   color: #666 !important;
   font-weight: 500 !important;
-  font-size: 12px !important;
+  font-size: 11px !important;
   text-transform: uppercase !important;
+  
+  // Скрываем полное название и показываем только первые 2 буквы
+  text-indent: -9999px;
+  position: relative;
+  
+  // Устанавливаем сокращения для дней недели
+  &::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    text-indent: 0;
+    font-size: 11px !important;
+    font-weight: 500;
+    color: #666;
+  }
+  
+  // Английские сокращения
+  &:nth-child(1)::after { content: "Mo"; }
+  &:nth-child(2)::after { content: "Tu"; }
+  &:nth-child(3)::after { content: "We"; }
+  &:nth-child(4)::after { content: "Th"; }
+  &:nth-child(5)::after { content: "Fr"; }
+  &:nth-child(6)::after { content: "Sa"; }
+  &:nth-child(7)::after { content: "Su"; }
 }
 
+// Если нужны русские сокращения, раскомментируйте этот блок:
+/*
+.react-datepicker__day-name {
+  &:nth-child(1)::after { content: "Пн"; }
+  &:nth-child(2)::after { content: "Вт"; }
+  &:nth-child(3)::after { content: "Ср"; }
+  &:nth-child(4)::after { content: "Чт"; }
+  &:nth-child(5)::after { content: "Пт"; }
+  &:nth-child(6)::after { content: "Сб"; }
+  &:nth-child(7)::after { content: "Вс"; }
+}
+*/
+
+// Строка с днями
 .react-datepicker__week {
   display: flex !important;
   justify-content: center !important;
-  margin: 2px 0 !important;
-  gap: 20px !important; 
+  margin: 1px 0 !important;
+  gap: 15px !important;
 }
 
+// Отдельные дни
 .react-datepicker__day {
-  width: 30px !important;
-  height: 30px !important;
+  width: 24px !important;
+  height: 24px !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  border-radius: 4px !important;
-  font-size: 14px !important;
+  border-radius: 3px !important;
+  font-size: 12px !important;
   transition: all 0.2s ease !important;
   border: 1px solid transparent !important;
+  cursor: pointer !important;
 }
 
 /* Дни до текущей даты - серым цветом */
@@ -125,8 +175,8 @@
   color: white !important;
   border-top-right-radius: 0 !important;
   border-bottom-right-radius: 0 !important;
-  border-top-left-radius: 4px !important;
-  border-bottom-left-radius: 4px !important;
+  border-top-left-radius: 3px !important;
+  border-bottom-left-radius: 3px !important;
 }
 
 .react-datepicker__day--range-end {
@@ -134,18 +184,19 @@
   color: white !important;
   border-top-left-radius: 0 !important;
   border-bottom-left-radius: 0 !important;
-  border-top-right-radius: 4px !important;
-  border-bottom-right-radius: 4px !important;
+  border-top-right-radius: 3px !important;
+  border-bottom-right-radius: 3px !important;
 }
 
 .react-datepicker__day--outside-month {
   color: #ccc !important;
 }
 
+// Заголовок календаря
 .react-datepicker__header {
   background-color: white !important;
   border-bottom: 1px solid #e0e0e0 !important;
-  padding: 5px 0 !important;
+  padding: 4px 0 !important;
   position: relative !important;
 }
 
@@ -164,26 +215,131 @@
   height: 0 !important;
 }
 
-/* Адаптивность */
+// Стили для выбора времени (если используется)
+.react-datepicker__time-container {
+  border-left: 1px solid #e0e0e0 !important;
+}
+
+.react-datepicker__time-box {
+  width: 100% !important;
+}
+
+.react-datepicker__time-list-item {
+  font-size: 12px !important;
+  padding: 5px 10px !important;
+  
+  &:hover {
+    background-color: #f0f0f0 !important;
+  }
+  
+  &--selected {
+    background-color: #006edc !important;
+    color: white !important;
+    font-weight: 600 !important;
+  }
+}
+
+// Стили для выбора годов и месяцев
+.react-datepicker__year-dropdown-container,
+.react-datepicker__month-dropdown-container {
+  margin: 0 5px !important;
+}
+
+.react-datepicker__year-option,
+.react-datepicker__month-option {
+  font-size: 12px !important;
+  padding: 5px !important;
+  
+  &:hover {
+    background-color: #f0f0f0 !important;
+  }
+}
+
+.react-datepicker__current-month--hasYearDropdown,
+.react-datepicker__current-month--hasMonthDropdown {
+  padding-bottom: 10px !important;
+}
+
+// Адаптивность
 @media (max-width: 768px) {
   .react-datepicker__month-wrapper {
     flex-direction: column !important;
-    gap: 20px !important;
+    gap: 15px !important;
   }
   
   .react-datepicker__day-name,
   .react-datepicker__day {
-    width: 32px !important;
-    height: 32px !important;
-    font-size: 13px !important;
+    width: 26px !important;
+    height: 26px !important;
+    font-size: 11px !important;
+  }
+  
+  .react-datepicker {
+    max-width: 260px !important;
+    min-width: 240px !important;
   }
 }
 
 @media (max-width: 480px) {
   .react-datepicker__day-name,
   .react-datepicker__day {
-    width: 28px !important;
-    height: 28px !important;
-    font-size: 12px !important;
+    width: 22px !important;
+    height: 22px !important;
+    font-size: 10px !important;
+  }
+  
+  .react-datepicker {
+    max-width: 240px !important;
+    min-width: 220px !important;
+    font-size: 11px !important;
+  }
+  
+  .react-datepicker__current-month {
+    font-size: 13px !important;
   }
 }
+
+// Стили для множественного выбора месяцев
+.react-datepicker__month--selected {
+  background-color: #006edc !important;
+  color: white !important;
+  border-radius: 3px !important;
+}
+
+.react-datepicker__month-text {
+  padding: 5px 10px !important;
+  font-size: 12px !important;
+  
+  &:hover {
+    background-color: #f0f0f0 !important;
+  }
+}
+
+// Стили для кварталов
+.react-datepicker__quarter--selected {
+  background-color: #006edc !important;
+  color: white !important;
+  border-radius: 3px !important;
+}
+
+.react-datepicker__quarter-text {
+  padding: 5px 10px !important;
+  font-size: 12px !important;
+  
+  &:hover {
+    background-color: #f0f0f0 !important;
+  }
+}
+
+// Стили для недель
+.react-datepicker__week-number {
+  color: #666 !important;
+  font-size: 11px !important;
+  font-weight: 500 !important;
+}
+
+.react-datepicker__day--highlighted {
+  background-color: #ffeb3b !important;
+  color: #333 !important;
+}
+
