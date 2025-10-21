@@ -8,12 +8,15 @@ import type { RootState } from "../../store/storage/store";
 import styles from '../../styles/pagesStyles/ModalWindow/ModalWindow.module.scss'
 import PlusIconSmall from "../../assets/img/icon/PlusIconSmall";
 import MarkerIcon from "../../assets/img/icon/MarkerIcon";
-import ClockIcon from "../../assets/img/icon/ClockIcon";
+
 import CheckBoxIcon from "../../assets/img/icon/CheckBoxIcon";
 import { updateCardCheck } from "../../store/redusers/features/slices/cardSlice/cardSlice";
 import DescriptionIcon from "../../assets/img/icon/DescriptionIcon";
 import { TextArea } from "../../components/base/textArea/TextArea";
-import DatePicker from "react-datepicker";
+import DatePickerComponent from "../../components/parts/DashBoard/DataPicker/DatePickerComponent";
+
+
+
 
 const ModalWindow: FC<ModalProps> = ({
   isOpen,
@@ -34,7 +37,7 @@ const ModalWindow: FC<ModalProps> = ({
     startDate: null,
     endDate: null,
   });
-  
+
   const [showDatePicker, setShowDatePicker] = useState(false);
 
   useEffect(() => {
@@ -81,7 +84,6 @@ const ModalWindow: FC<ModalProps> = ({
   const handleInputChange = (field: keyof ModalData, value: string | boolean | Date | null) => {
     let processedValue = value;
     
-    // Если это дата, убедимся что это объект Date или null
     if (field === 'startDate' || field === 'endDate') {
       processedValue = value instanceof Date ? value : null;
     }
@@ -102,6 +104,12 @@ const ModalWindow: FC<ModalProps> = ({
     }
   };
 
+  const handleUpdateModalData = (data: Partial<ModalData>) => {
+    const newData = { ...localData, ...data };
+    setLocalData(newData);
+    dispatch(updateModalData(newData));
+  };
+
   const handleAdd = () => {
     console.log("Добавить clicked");
   };
@@ -110,42 +118,13 @@ const ModalWindow: FC<ModalProps> = ({
     console.log("Метки clicked");
   };
 
-  const handleDates = () => {
-    console.log("Даты clicked");
-    setShowDatePicker(prev => !prev);
-  };
-
   const handleChecklist = () => {
     console.log("Чек-лист clicked");
   };
 
-  // Выбор одной даты вместо промежутка
-  const handleDateChange = (date: Date | null) => {
-    console.log('Date selected:', date);
-    
-    const newData = {
-      ...localData,
-      startDate: date,
-      endDate: null // Очищаем конечную дату при выборе одной даты
-    };
-    
-    setLocalData(newData);
-    dispatch(updateModalData(newData));
-    
-    // Автоматически закрываем календарь после выбора даты
-    setShowDatePicker(false);
+  const handleDatePickerToggle = (isOpen: boolean) => {
+    setShowDatePicker(isOpen);
   };
-
-  const formatDateForDisplay = (date: Date | null | undefined): string => {
-    if (!date) return '';
-    return date.toLocaleDateString('ru-RU', {
-      day: 'numeric',
-      month: 'long',
-      year: 'numeric'
-    });
-  };
-
-  const hasDate = localData.startDate;
 
   if (!isOpen) return null;
 
@@ -184,14 +163,15 @@ const ModalWindow: FC<ModalProps> = ({
               <MarkerIcon size={14} />
               <span>Метки</span>
             </Button>
-            <Button
-              buttonStyle="create"
-              onClick={handleDates}
-              className={`${styles.actionButton} ${showDatePicker ? styles.active : ''}`}
-            >
-              <ClockIcon size={14} />
-              <span>Даты</span>
-            </Button>
+            
+            {/* Используем новый компонент DatePicker */}
+            <DatePickerComponent
+              localData={localData}
+              onDateChange={handleInputChange}
+              onUpdateModalData={handleUpdateModalData}
+              onToggle={handleDatePickerToggle}
+            />
+            
             <Button
               buttonStyle="create"
               onClick={handleChecklist}
@@ -202,29 +182,16 @@ const ModalWindow: FC<ModalProps> = ({
             </Button>
           </div>
 
-          {/* Блок отображения выбранной даты - только сама дата */}
-          {hasDate && (
+          {/* Блок отображения выбранной даты - показывается только когда DatePicker закрыт */}
+          {localData.startDate && !showDatePicker && (
             <div className={styles.selectedDateContainer}>
               <span className={styles.selectedDate}>
-                {formatDateForDisplay(localData.startDate)}
+                {localData.startDate.toLocaleDateString('ru-RU', {
+                  day: 'numeric',
+                  month: 'long',
+                  year: 'numeric'
+                })}
               </span>
-            </div>
-          )}
-
-          {showDatePicker && (
-            <div className={styles.datePickerContainer}>
-              <DatePicker
-                selected={localData.startDate}
-                onChange={handleDateChange}
-                inline
-                monthsShown={1}
-                calendarStartDay={1}
-                locale="ru"
-                className={styles.datePicker}
-                minDate={new Date()}
-                
-                shouldCloseOnSelect={true} // Закрываем календарь после выбора
-              />
             </div>
           )}
         </div>
