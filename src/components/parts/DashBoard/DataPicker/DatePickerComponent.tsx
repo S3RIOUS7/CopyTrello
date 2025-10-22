@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import DatePicker from "react-datepicker";
 import { type FC } from "react";
 
@@ -11,9 +11,11 @@ import { ArrowRightIcon } from "../../../../assets/img/icon/ArrowRightMonth";
 
 interface DatePickerComponentProps {
   localData: ModalData;
-  onDateChange: (field: keyof ModalData, value: Date | null) => void;
+  onDateChange: (date: Date | null) => void;
   onUpdateModalData: (data: Partial<ModalData>) => void;
   onToggle: (isOpen: boolean) => void;
+  isOpen: boolean;
+  triggerElement: 'button' | 'selectedDate';
 }
 
 const DatePickerComponent: FC<DatePickerComponentProps> = ({
@@ -21,18 +23,29 @@ const DatePickerComponent: FC<DatePickerComponentProps> = ({
   onDateChange,
   onUpdateModalData,
   onToggle,
+  isOpen,
+  triggerElement,
 }) => {
-  const [showDatePicker, setShowDatePicker] = useState(false);
   const [currentMonth, setCurrentMonth] = useState<Date>(
     localData.startDate instanceof Date ? new Date(localData.startDate) : new Date()
   );
+  const datePickerRef = useRef<HTMLDivElement>(null);
 
-  const handleDates = () => {
-    const newState = !showDatePicker;
-    setShowDatePicker(newState);
-    onToggle(newState);
-    console.log("Даты clicked", newState);
-  };
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (datePickerRef.current && !datePickerRef.current.contains(event.target as Node)) {
+        onToggle(false);
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isOpen, onToggle]);
 
   // Выбор одной даты вместо промежутка
   const handleDateChange = (date: Date | null) => {
@@ -43,11 +56,10 @@ const DatePickerComponent: FC<DatePickerComponentProps> = ({
       endDate: null // Очищаем конечную дату при выборе одной даты
     };
     
-    onDateChange('startDate', date);
+    onDateChange(date);
     onUpdateModalData(newData);
     
     // Автоматически закрываем календарь после выбора даты
-    setShowDatePicker(false);
     onToggle(false);
   };
 
@@ -58,18 +70,77 @@ const DatePickerComponent: FC<DatePickerComponentProps> = ({
     });
   };
 
+  // Рендер только календаря (для выпадающего меню из selectedDate)
+  if (triggerElement === 'selectedDate') {
+    return (
+      <div className={styles.datePicker} ref={datePickerRef}>
+        <DatePicker
+          selected={localData.startDate instanceof Date ? localData.startDate : null}
+          onChange={handleDateChange}
+          inline
+          monthsShown={1}
+          calendarStartDay={1}
+          locale="ru"
+          className={styles.datePicker}
+          minDate={new Date()}
+          shouldCloseOnSelect={true}
+          // Управление отображаемым месяцем
+          openToDate={currentMonth}
+          onMonthChange={setCurrentMonth}
+          // Кастомный заголовок с кнопками переключения месяцев
+          renderCustomHeader={({
+            monthDate,
+            decreaseMonth,
+            increaseMonth,
+          }) => (
+            <div className={styles.customHeader}>
+              <button
+                onClick={decreaseMonth}
+                className={styles.monthNavButton}
+                aria-label="Предыдущий месяц"
+                type="button"
+              >
+                <ArrowLeftIcon size={14} />
+              </button>
+              
+              <h2 className={styles.currentMonth}>
+                {formatMonthForDisplay(monthDate)}
+              </h2>
+              
+              <button
+                onClick={increaseMonth}
+                className={styles.monthNavButton}
+                aria-label="Следующий месяц"
+                type="button"
+              >
+                <ArrowRightIcon size={14} />
+              </button>
+            </div>
+          )}
+        />
+      </div>
+    );
+  }
+
+  // Рендер с кнопкой "Даты" (для первоначального выбора)
+  const handleDatesClick = () => {
+    const newState = !isOpen;
+    onToggle(newState);
+    console.log("Даты clicked", newState);
+  };
+
   return (
-    <div className={styles.datePickerWrapper}>
+    <div className={styles.datePickerWrapper} ref={datePickerRef}>
       <Button
         buttonStyle="create"
-        onClick={handleDates}
-        className={`${styles.actionButton} ${showDatePicker ? styles.active : ''}`}
+        onClick={handleDatesClick}
+        className={`${styles.actionButton} ${isOpen ? styles.active : ''}`}
       >
         <ClockIcon size={14} />
         <span>Даты</span>
       </Button>
 
-      {showDatePicker && (
+      {isOpen && (
         <div className={styles.datePickerDropdown}>
           <DatePicker
             selected={localData.startDate instanceof Date ? localData.startDate : null}
@@ -91,27 +162,27 @@ const DatePickerComponent: FC<DatePickerComponentProps> = ({
               increaseMonth,
             }) => (
               <div className={styles.customHeader}>
-                <Button
-                  buttonStyle="search"
+                <button
                   onClick={decreaseMonth}
                   className={styles.monthNavButton}
                   aria-label="Предыдущий месяц"
+                  type="button"
                 >
                   <ArrowLeftIcon size={14} />
-                </Button>
+                </button>
                 
                 <h2 className={styles.currentMonth}>
                   {formatMonthForDisplay(monthDate)}
                 </h2>
                 
-                <Button
-                  buttonStyle="search"
+                <button
                   onClick={increaseMonth}
                   className={styles.monthNavButton}
                   aria-label="Следующий месяц"
+                  type="button"
                 >
                   <ArrowRightIcon size={14} />
-                </Button>
+                </button>
               </div>
             )}
           />

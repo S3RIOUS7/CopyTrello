@@ -14,8 +14,7 @@ import { updateCardCheck } from "../../store/redusers/features/slices/cardSlice/
 import DescriptionIcon from "../../assets/img/icon/DescriptionIcon";
 import { TextArea } from "../../components/base/textArea/TextArea";
 import DatePickerComponent from "../../components/parts/DashBoard/DataPicker/DatePickerComponent";
-
-
+import CancelIcon from "../../assets/img/icon/CancelIcon";
 
 
 const ModalWindow: FC<ModalProps> = ({
@@ -38,7 +37,8 @@ const ModalWindow: FC<ModalProps> = ({
     endDate: null,
   });
 
-  const [showDatePicker, setShowDatePicker] = useState(false);
+  const [showDatePickerFromButton, setShowDatePickerFromButton] = useState(false);
+  const [showDatePickerFromSelectedDate, setShowDatePickerFromSelectedDate] = useState(false);
 
   useEffect(() => {
     if (initialData) {
@@ -122,8 +122,42 @@ const ModalWindow: FC<ModalProps> = ({
     console.log("Чек-лист clicked");
   };
 
-  const handleDatePickerToggle = (isOpen: boolean) => {
-    setShowDatePicker(isOpen);
+  const handleDatePickerFromButtonToggle = (isOpen: boolean) => {
+    setShowDatePickerFromButton(isOpen);
+  };
+
+  const handleDatePickerFromSelectedDateToggle = (isOpen: boolean) => {
+    setShowDatePickerFromSelectedDate(isOpen);
+  };
+
+  const handleSelectedDateClick = () => {
+    setShowDatePickerFromSelectedDate(!showDatePickerFromSelectedDate);
+    // Закрываем календарь от кнопки если он открыт
+    setShowDatePickerFromButton(false);
+  };
+
+  // Функция для удаления выбранной даты
+  const handleRemoveDate = (e: React.MouseEvent) => {
+    e.stopPropagation(); // Предотвращаем всплытие события
+    
+    const newData = {
+      startDate: null,
+      endDate: null
+    };
+    
+    setLocalData(prev => ({ ...prev, ...newData }));
+    dispatch(updateModalData(newData));
+    
+    // Закрываем календарь если он открыт
+    setShowDatePickerFromSelectedDate(false);
+  };
+
+  // Исправленная функция для DatePickerComponent
+  const handleDateSelect = (date: Date | null) => {
+    handleInputChange('startDate', date);
+    // Закрываем оба календаря после выбора даты
+    setShowDatePickerFromButton(false);
+    setShowDatePickerFromSelectedDate(false);
   };
 
   if (!isOpen) return null;
@@ -161,15 +195,18 @@ const ModalWindow: FC<ModalProps> = ({
               className={styles.actionButton}
             >
               <MarkerIcon size={14} />
+          
               <span>Метки</span>
             </Button>
             
-            {/* Используем новый компонент DatePicker */}
+            {/* Кнопка "Даты" для первоначального выбора даты */}
             <DatePickerComponent
               localData={localData}
-              onDateChange={handleInputChange}
+              onDateChange={handleDateSelect}
               onUpdateModalData={handleUpdateModalData}
-              onToggle={handleDatePickerToggle}
+              onToggle={handleDatePickerFromButtonToggle}
+              isOpen={showDatePickerFromButton}
+              triggerElement="button"
             />
             
             <Button
@@ -182,16 +219,42 @@ const ModalWindow: FC<ModalProps> = ({
             </Button>
           </div>
 
-          {/* Блок отображения выбранной даты - показывается только когда DatePicker закрыт */}
-          {localData.startDate && !showDatePicker && (
-            <div className={styles.selectedDateContainer}>
-              <span className={styles.selectedDate}>
-                {localData.startDate.toLocaleDateString('ru-RU', {
-                  day: 'numeric',
-                  month: 'long',
-                  year: 'numeric'
-                })}
-              </span>
+          {/* Блок отображения выбранной даты с выпадающим календарем */}
+          {localData.startDate && (
+            <div className={styles.selectedDateWrapper}>
+              <div 
+                className={`${styles.selectedDateContainer} ${showDatePickerFromSelectedDate ? styles.active : ''}`}
+                onClick={handleSelectedDateClick}
+              >
+                <span className={styles.selectedDate}>
+                  {localData.startDate.toLocaleDateString('ru-RU', {
+                    day: 'numeric',
+                    month: 'long',
+                    year: 'numeric'
+                  })}
+                </span>
+                <button 
+                  className={styles.removeDateButton}
+                  onClick={handleRemoveDate}
+                  aria-label="Удалить дату"
+                >
+                  <CancelIcon size={14} />
+                </button>
+              </div>
+
+              {/* Календарь выпадающий из selectedDateContainer */}
+              {showDatePickerFromSelectedDate && (
+                <div className={styles.datePickerDropdownFromDate}>
+                  <DatePickerComponent
+                    localData={localData}
+                    onDateChange={handleDateSelect}
+                    onUpdateModalData={handleUpdateModalData}
+                    onToggle={handleDatePickerFromSelectedDateToggle}
+                    isOpen={showDatePickerFromSelectedDate}
+                    triggerElement="selectedDate"
+                  />
+                </div>
+              )}
             </div>
           )}
         </div>
