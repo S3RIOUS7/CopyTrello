@@ -15,6 +15,8 @@ import DescriptionIcon from "../../assets/img/icon/DescriptionIcon";
 import { TextArea } from "../../components/base/textArea/TextArea";
 import DatePickerComponent from "../../components/parts/DashBoard/DataPicker/DatePickerComponent";
 import CancelIcon from "../../assets/img/icon/CancelIcon";
+import type { Checklist } from "../../store/types/modalWindowTypes/Checklist/checkList";
+import ChecklistComponent from "../../components/parts/DashBoard/CheckList/CheckList";
 
 
 const ModalWindow: FC<ModalProps> = ({
@@ -35,11 +37,14 @@ const ModalWindow: FC<ModalProps> = ({
     isChecked: false,
     startDate: null,
     endDate: null,
+    checklists: [],
   });
 
   const [showDatePickerFromButton, setShowDatePickerFromButton] = useState(false);
   const [showDatePickerFromSelectedDate, setShowDatePickerFromSelectedDate] = useState(false);
+  const [showChecklist, setShowChecklist] = useState(false);
 
+  // Инициализация данных
   useEffect(() => {
     if (initialData) {
       const newData = {
@@ -50,6 +55,7 @@ const ModalWindow: FC<ModalProps> = ({
         startDate: initialData.startDate instanceof Date ? initialData.startDate : null,
         endDate: initialData.endDate instanceof Date ? initialData.endDate : null,
         cardId: initialData.cardId,
+        checklists: initialData.checklists || [],
       };
       setLocalData(newData);
     }
@@ -66,6 +72,7 @@ const ModalWindow: FC<ModalProps> = ({
     }
   }, [modalData]);
 
+  // Обработчики модального окна
   const handleClose = () => {
     dispatch(closeModal());
     onClose();
@@ -81,7 +88,8 @@ const ModalWindow: FC<ModalProps> = ({
     handleClose();
   };
 
-  const handleInputChange = (field: keyof ModalData, value: string | boolean | Date | null) => {
+  // Обработчики полей ввода
+  const handleInputChange = (field: keyof ModalData, value: string | boolean | Date | null | Checklist[]) => {
     let processedValue = value;
     
     if (field === 'startDate' || field === 'endDate') {
@@ -110,6 +118,7 @@ const ModalWindow: FC<ModalProps> = ({
     dispatch(updateModalData(newData));
   };
 
+  // Обработчики кнопок действий
   const handleAdd = () => {
     console.log("Добавить clicked");
   };
@@ -119,9 +128,26 @@ const ModalWindow: FC<ModalProps> = ({
   };
 
   const handleChecklist = () => {
-    console.log("Чек-лист clicked");
+    setShowChecklist(true);
   };
 
+  const handleAddChecklist = (checklistTitle: string) => {
+    const newChecklist: Checklist = {
+      id: Date.now().toString(),
+      title: checklistTitle,
+      items: [],
+    };
+    
+    const updatedChecklists = [...(localData.checklists || []), newChecklist];
+    handleInputChange('checklists', updatedChecklists);
+    setShowChecklist(false);
+  };
+
+  const handleCloseChecklist = () => {
+    setShowChecklist(false);
+  };
+
+  // Обработчики дат
   const handleDatePickerFromButtonToggle = (isOpen: boolean) => {
     setShowDatePickerFromButton(isOpen);
   };
@@ -132,13 +158,11 @@ const ModalWindow: FC<ModalProps> = ({
 
   const handleSelectedDateClick = () => {
     setShowDatePickerFromSelectedDate(!showDatePickerFromSelectedDate);
-    // Закрываем календарь от кнопки если он открыт
     setShowDatePickerFromButton(false);
   };
 
-  // Функция для удаления выбранной даты
   const handleRemoveDate = (e: React.MouseEvent) => {
-    e.stopPropagation(); // Предотвращаем всплытие события
+    e.stopPropagation();
     
     const newData = {
       startDate: null,
@@ -147,15 +171,11 @@ const ModalWindow: FC<ModalProps> = ({
     
     setLocalData(prev => ({ ...prev, ...newData }));
     dispatch(updateModalData(newData));
-    
-    // Закрываем календарь если он открыт
     setShowDatePickerFromSelectedDate(false);
   };
 
-  // Исправленная функция для DatePickerComponent
   const handleDateSelect = (date: Date | null) => {
     handleInputChange('startDate', date);
-    // Закрываем оба календаря после выбора даты
     setShowDatePickerFromButton(false);
     setShowDatePickerFromSelectedDate(false);
   };
@@ -163,131 +183,161 @@ const ModalWindow: FC<ModalProps> = ({
   if (!isOpen) return null;
 
   return (
-    <div className={styles.modalOverlay} onClick={handleClose}>
-      <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
-        <div className={styles.modalHeader}>
-          <h2 className={styles.modalTitle}>{title}</h2>
-        </div>
-
-        <div className={styles.modalSection}>
-          <div className={styles.checkboxContainer}>
-            <input
-              type="checkbox"
-              checked={localData.isChecked}
-              onChange={(e) => handleInputChange('isChecked', e.target.checked)}
-              className={styles.modalCheckbox}
-            />
-            <label className={styles.checkboxLabel}>{localData.className}</label>
-          </div>
-         
-          <div className={styles.buttonsRow}>
-            <Button
-              buttonStyle="create"
-              onClick={handleAdd}
-              className={styles.actionButton}
-            >
-              <PlusIconSmall size={14} />
-              <span>Добавить</span>
-            </Button>
-            <Button
-              buttonStyle="create"
-              onClick={handleLabels}
-              className={styles.actionButton}
-            >
-              <MarkerIcon size={14} />
-          
-              <span>Метки</span>
-            </Button>
-            
-            {/* Кнопка "Даты" для первоначального выбора даты */}
-            <DatePickerComponent
-              localData={localData}
-              onDateChange={handleDateSelect}
-              onUpdateModalData={handleUpdateModalData}
-              onToggle={handleDatePickerFromButtonToggle}
-              isOpen={showDatePickerFromButton}
-              triggerElement="button"
-            />
-            
-            <Button
-              buttonStyle="create"
-              onClick={handleChecklist}
-              className={styles.actionButton}
-            >
-              <CheckBoxIcon size={14} />
-              <span>Чек-лист</span>
-            </Button>
+    <>
+      <div className={styles.modalOverlay} onClick={handleClose}>
+        <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
+          {/* Заголовок модального окна */}
+          <div className={styles.modalHeader}>
+            <h2 className={styles.modalTitle}>{title}</h2>
           </div>
 
-          {/* Блок отображения выбранной даты с выпадающим календарем */}
-          {localData.startDate && (
-            <div className={styles.selectedDateWrapper}>
-              <div 
-                className={`${styles.selectedDateContainer} ${showDatePickerFromSelectedDate ? styles.active : ''}`}
-                onClick={handleSelectedDateClick}
-              >
-                <span className={styles.selectedDate}>
-                  {localData.startDate.toLocaleDateString('ru-RU', {
-                    day: 'numeric',
-                    month: 'long',
-                    year: 'numeric'
-                  })}
-                </span>
-                <button 
-                  className={styles.removeDateButton}
-                  onClick={handleRemoveDate}
-                  aria-label="Удалить дату"
-                >
-                  <CancelIcon size={14} />
-                </button>
-              </div>
-
-              {/* Календарь выпадающий из selectedDateContainer */}
-              {showDatePickerFromSelectedDate && (
-                <div className={styles.datePickerDropdownFromDate}>
-                  <DatePickerComponent
-                    localData={localData}
-                    onDateChange={handleDateSelect}
-                    onUpdateModalData={handleUpdateModalData}
-                    onToggle={handleDatePickerFromSelectedDateToggle}
-                    isOpen={showDatePickerFromSelectedDate}
-                    triggerElement="selectedDate"
-                  />
-                </div>
-              )}
+          {/* Основная секция с чекбоксом и кнопками действий */}
+          <div className={styles.modalSection}>
+            <div className={styles.checkboxContainer}>
+              <input
+                type="checkbox"
+                checked={localData.isChecked}
+                onChange={(e) => handleInputChange('isChecked', e.target.checked)}
+                className={styles.modalCheckbox}
+              />
+              <label className={styles.checkboxLabel}>{localData.className}</label>
             </div>
-          )}
-        </div>
+           
+            {/* Ряд кнопок действий */}
+            <div className={styles.buttonsRow}>
+              <Button
+                buttonStyle="create"
+                onClick={handleAdd}
+                className={styles.actionButton}
+              >
+                <PlusIconSmall size={14} />
+                <span>Добавить</span>
+              </Button>
+              
+              <Button
+                buttonStyle="create"
+                onClick={handleLabels}
+                className={styles.actionButton}
+              >
+                <MarkerIcon size={14} />
+                <span>Метки</span>
+              </Button>
+              
+              {/* Компонент выбора даты */}
+              <DatePickerComponent
+                localData={localData}
+                onDateChange={handleDateSelect}
+                onUpdateModalData={handleUpdateModalData}
+                onToggle={handleDatePickerFromButtonToggle}
+                isOpen={showDatePickerFromButton}
+                triggerElement="button"
+              />
+              
+              <Button
+                buttonStyle="create"
+                onClick={handleChecklist}
+                className={styles.actionButton}
+              >
+                <CheckBoxIcon size={14} />
+                <span>Чек-лист</span>
+              </Button>
+            </div>
 
-        <div className={styles.modalSection}>
-          <h3 className={styles.sectionTitle}>
-            <DescriptionIcon size={18} color="#42526E" className={styles.icon} />
-            Описание
-          </h3>
-          <TextArea
-            value={localData.description}
-            onChange={(value) => handleInputChange('description', value)}
-            placeholder="Введите описание"
-            className={`${styles.modalTextArea} ${styles.descriptionTextArea}`}
-            rows={4}
-            autoResize={true}
-          />
-        </div>
+            {/* Блок отображения выбранной даты */}
+            {localData.startDate && (
+              <div className={styles.selectedDateWrapper}>
+                <div 
+                  className={`${styles.selectedDateContainer} ${showDatePickerFromSelectedDate ? styles.active : ''}`}
+                  onClick={handleSelectedDateClick}
+                >
+                  <span className={styles.selectedDate}>
+                    {localData.startDate.toLocaleDateString('ru-RU', {
+                      day: 'numeric',
+                      month: 'long',
+                      year: 'numeric'
+                    })}
+                  </span>
+                  <button 
+                    className={styles.removeDateButton}
+                    onClick={handleRemoveDate}
+                    aria-label="Удалить дату"
+                  >
+                    <CancelIcon size={14} />
+                  </button>
+                </div>
 
-        <div className={styles.modalActions}>
-          <Button
-            buttonStyle="create"
-            onClick={handleSave}
-            label="Сохранить"
-          />
-          <Button
-            buttonStyle="search"
-            onClick={handleCancel}
-            label="Отмена"
-          />
+                {/* Выпадающий календарь для выбранной даты */}
+                {showDatePickerFromSelectedDate && (
+                  <div className={styles.datePickerDropdownFromDate}>
+                    <DatePickerComponent
+                      localData={localData}
+                      onDateChange={handleDateSelect}
+                      onUpdateModalData={handleUpdateModalData}
+                      onToggle={handleDatePickerFromSelectedDateToggle}
+                      isOpen={showDatePickerFromSelectedDate}
+                      triggerElement="selectedDate"
+                    />
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Отображение добавленных чек-листов */}
+            {localData.checklists && localData.checklists.length > 0 && (
+              <div className={styles.checklistsSection}>
+                <h4 className={styles.checklistsTitle}>Чек-листы:</h4>
+                {localData.checklists.map(checklist => (
+                  <div key={checklist.id} className={styles.checklistItem}>
+                    <CheckBoxIcon size={14} />
+                    <span className={styles.checklistName}>{checklist.title}</span>
+                    <span className={styles.checklistStats}>
+                      ({checklist.items.filter(item => item.completed).length}/{checklist.items.length})
+                    </span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Секция описания */}
+          <div className={styles.modalSection}>
+            <h3 className={styles.sectionTitle}>
+              <DescriptionIcon size={18} color="#42526E" className={styles.icon} />
+              Описание
+            </h3>
+            <TextArea
+              value={localData.description}
+              onChange={(value) => handleInputChange('description', value)}
+              placeholder="Введите описание"
+              className={`${styles.modalTextArea} ${styles.descriptionTextArea}`}
+              rows={4}
+              autoResize={true}
+            />
+          </div>
+
+          {/* Кнопки действий */}
+          <div className={styles.modalActions}>
+            <Button
+              buttonStyle="create"
+              onClick={handleSave}
+              label="Сохранить"
+            />
+            <Button
+              buttonStyle="search"
+              onClick={handleCancel}
+              label="Отмена"
+            />
+          </div>
         </div>
       </div>
-    </div>
+
+      {/* Компонент добавления чек-листа */}
+      <ChecklistComponent
+        isOpen={showChecklist}
+        onClose={handleCloseChecklist}
+        onAddChecklist={handleAddChecklist}
+      />
+    </>
   );
 };
 
