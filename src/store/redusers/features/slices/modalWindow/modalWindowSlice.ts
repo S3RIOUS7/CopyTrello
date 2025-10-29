@@ -23,8 +23,8 @@ const modalSlice = createSlice({
         description: action.payload.description || '',
         isChecked: action.payload.isChecked || false,
         cardId: action.payload.cardId,
-        startDate: action.payload.startDate || null, // Устанавливаем null по умолчанию
-        endDate: action.payload.endDate || null,     // Устанавливаем null по умолчанию
+        startDate: action.payload.startDate || null,
+        endDate: action.payload.endDate || null,
         ...action.payload,
       };
     },
