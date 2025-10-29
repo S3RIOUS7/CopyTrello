@@ -1,3 +1,5 @@
+import type { Checklist } from "./Checklist/checkList";
+
 export interface ModalData {
   title: string;
   className: string;
@@ -6,6 +8,7 @@ export interface ModalData {
   cardId?: string;
   startDate?: Date | null; // Разрешаем null
   endDate?: Date | null;   // Разрешаем null
+   checklists?: Checklist[];
 }
 
 export interface ModalProps {
